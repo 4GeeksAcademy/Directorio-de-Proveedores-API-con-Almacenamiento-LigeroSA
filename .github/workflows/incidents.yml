@@ -1,0 +1,57 @@
+name: Incidents local analysis
+
+on:
+  push:
+    paths:
+      - "packages/incidents/**"
+      - "scripts/analyze.py"
+      - "services/api/**"
+      - "uis/backoffice/**"
+      - "healthcore.md"
+      - ".github/workflows/incidents.yml"
+  pull_request:
+    paths:
+      - "packages/incidents/**"
+      - "scripts/analyze.py"
+      - "services/api/**"
+      - "uis/backoffice/**"
+      - "healthcore.md"
+      - ".github/workflows/incidents.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: services/api/requirements.lock
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: uis/backoffice/package-lock.json
+      - name: Install locked dependencies
+        run: |
+          python -m pip install --require-hashes -r services/api/requirements.lock
+          npm --prefix uis/backoffice ci
+          npm --prefix uis/backoffice exec -- playwright install --with-deps chromium
+      - name: Test CLI and API
+        run: python -m unittest packages.incidents.test_analysis services.api.test_api -v
+      - name: Test local backoffice
+        run: |
+          python -m uvicorn services.api.main:app --host 127.0.0.1 --port 8765 --no-access-log &
+          api_pid=$!
+          trap 'kill "$api_pid"' EXIT
+          curl --fail --silent --show-error --retry 10 --retry-connrefused --retry-delay 1 http://127.0.0.1:8765/api/incidents/schema > /dev/null
+          npm --prefix uis/backoffice test
