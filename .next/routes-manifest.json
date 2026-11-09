@@ -18,7 +18,18 @@
   "onMatchHeaders": [],
   "rewrites": {
     "beforeFiles": [],
-    "afterFiles": [],
+    "afterFiles": [
+      {
+        "source": "/api/suppliers",
+        "destination": "http://127.0.0.1:8765/suppliers",
+        "regex": "^/api/suppliers(?:/)?$"
+      },
+      {
+        "source": "/api/suppliers/:path*",
+        "destination": "http://127.0.0.1:8765/suppliers/:path*",
+        "regex": "^/api/suppliers(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$"
+      }
+    ],
     "fallback": []
   },
   "dynamicRoutes": [
@@ -63,6 +74,12 @@
       "regex": "^/candidates/new(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/candidates/new(?:/)?$"
+    },
+    {
+      "page": "/suppliers",
+      "regex": "^/suppliers(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/suppliers(?:/)?$"
     }
   ],
   "dataRoutes": [],

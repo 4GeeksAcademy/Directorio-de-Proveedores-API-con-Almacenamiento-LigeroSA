@@ -3,3 +3,6 @@ __pycache__/
 *.py[cod]
 *.csv
 .venv-api/
+.venv/
+*.egg-info/
+data/suppliers.json

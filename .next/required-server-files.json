@@ -106,7 +106,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "/workspaces/Hito-3-Talent-Pipeline-TrackerSa",
+    "outputFileTracingRoot": "/workspaces/Directorio-de-Proveedores-API-con-Almacenamiento-LigeroSA",
     "enablePrerenderSourceMaps": true,
     "cacheComponents": false,
     "cacheLife": {
@@ -335,13 +335,27 @@
     "htmlLimitedBots": "[\\w-]+-Google|Google-[\\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight",
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.mjs",
-    "repoRoot": "/workspaces/Hito-3-Talent-Pipeline-TrackerSa",
+    "repoRoot": "/workspaces/Directorio-de-Proveedores-API-con-Almacenamiento-LigeroSA",
     "turbopack": {
-      "root": "/workspaces/Hito-3-Talent-Pipeline-TrackerSa"
+      "root": "/workspaces/Directorio-de-Proveedores-API-con-Almacenamiento-LigeroSA"
     },
-    "distDirRoot": ".next"
+    "distDirRoot": ".next",
+    "_originalRewrites": {
+      "beforeFiles": [],
+      "afterFiles": [
+        {
+          "source": "/api/suppliers",
+          "destination": "http://127.0.0.1:8765/suppliers"
+        },
+        {
+          "source": "/api/suppliers/:path*",
+          "destination": "http://127.0.0.1:8765/suppliers/:path*"
+        }
+      ],
+      "fallback": []
+    }
   },
-  "appDir": "/workspaces/Hito-3-Talent-Pipeline-TrackerSa",
+  "appDir": "/workspaces/Directorio-de-Proveedores-API-con-Almacenamiento-LigeroSA",
   "relativeAppDir": "",
   "files": [
     ".next/package.json",

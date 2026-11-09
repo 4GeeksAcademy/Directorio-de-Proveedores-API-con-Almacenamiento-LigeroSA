@@ -4,5 +4,6 @@
   "/candidates/[id]/edit/page": "/candidates/[id]/edit",
   "/candidates/[id]/page": "/candidates/[id]",
   "/candidates/new/page": "/candidates/new",
-  "/page": "/"
+  "/page": "/",
+  "/suppliers/page": "/suppliers"
 }

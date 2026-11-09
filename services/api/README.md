@@ -1,5 +1,48 @@
 # API local de HealthCore
 
+## Directorio de proveedores
+
+Desde la raíz, con [uv](https://docs.astral.sh/uv/):
+
+```sh
+uv sync --locked
+uv run seed
+uv run uvicorn services.api.main:app --host 127.0.0.1 --port 8765 --workers 1
+```
+
+`uv run seed` inserta siete proveedores de ejemplo únicamente si la tabla está vacía e imprime el número insertado. Los nombres son referencias del caso HealthCore; las tarifas son ficticias, no cotizaciones ni contratos reales. No se asigna moneda porque el contrato de dominio no la define.
+
+- `POST /suppliers`: `201` con `id` UUID y `updated_at` UTC generados por el servidor.
+- `GET /suppliers`: lista completa o filtrada con `country=US|UK` y/o `category`.
+- `GET /suppliers/{id}`: detalle, `404` si no existe.
+- `PATCH /suppliers/{id}/rate`: cuerpo `{"rate": 150.5}`, devuelve el proveedor actualizado.
+- `PATCH /suppliers/{id}/status`: cuerpo `{"status": "activo"}` o `{"status": "suspendido"}`, devuelve el proveedor actualizado.
+- `DELETE /suppliers/{id}`: `204` sin cuerpo, `404` si no existe.
+
+Ejemplo de creación:
+
+```json
+{
+	"name": "Epic Systems",
+	"country": "US",
+	"category": "health_tech_software",
+	"rate": 185,
+	"status": "activo"
+}
+```
+
+Los esquemas viven en [models.py](models.py). Solo se admiten las seis categorías HealthCore: `health_tech_software`, `revenue_billing_services`, `medical_supplies`, `recruitment_hr`, `compliance_legal`, `general_operations`. `rate` acepta números JSON enteros o decimales finitos y estrictamente positivos; rechaza texto numérico, booleanos, cero, negativos, NaN e infinito con `422` antes de abrir TinyDB. También se rechazan campos desconocidos, `id` y `updated_at` en los payloads. El nombre, sin espacios extremos, requiere entre 1 y 200 caracteres. `status` es `activo` por defecto. Ambas actualizaciones renuevan `updated_at`.
+
+TinyDB guarda los datos en `data/suppliers.json` (excluido de Git). `HEALTHCORE_DB_PATH` permite otra ruta. Las operaciones se serializan dentro de un único proceso: no ejecutar varios workers, ni el seed simultáneamente con el servidor. Para varios procesos, desplegar una base de datos transaccional. `HEALTHCORE_UI_ORIGIN` permite exclusivamente el origen de la UI para proveedores (por defecto `http://127.0.0.1:3000`); cambiarlo al usar otro puerto u hostname. No modifica la política de incidencias ni habilita CORS abierto.
+
+La interfaz y sus comandos están en [uis/application/README.md](../../uis/application/README.md). Pruebas aisladas, sin modificar datos reales:
+
+```sh
+uv run python -m unittest services.api.test_suppliers -v
+```
+
+## Análisis de incidencias
+
 Desde la raíz del monorepo, con Python 3.11 o superior. Versiones verificadas en Linux: 3.11, 3.12, 3.13 y 3.14.
 
 ```sh

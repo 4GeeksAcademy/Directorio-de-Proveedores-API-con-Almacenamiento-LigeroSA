@@ -1,10 +1,13 @@
 import asyncio
+import os
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
 from uuid import uuid4
 
 from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi.exception_handlers import request_validation_exception_handler
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
 from starlette.concurrency import run_in_threadpool
 from starlette.datastructures import UploadFile
@@ -13,6 +16,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from packages.incidents.analysis import AnalysisResult, CSVInputError, CSVResourceLimitError, MAX_FILE_BYTES, analyze_csv, results_csv
 from packages.incidents.rules import RULES
+from services.api.routes.suppliers import router as suppliers_router
 
 
 FRONTEND = Path(__file__).resolve().parents[2] / "uis" / "backoffice"
@@ -60,15 +64,34 @@ app = FastAPI(title="HealthCore | Análisis local", docs_url=None, redoc_url=Non
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "[::1]", "testserver"])
 app.state.results = {}
 app.state.active_analyses = 0
+app.include_router(suppliers_router)
+
+
+@app.exception_handler(RequestValidationError)
+async def supplier_validation_error(request: Request, error: RequestValidationError):
+    """No refleja entradas no serializables (NaN/infinito) en el JSON de error."""
+    if request.url.path == "/suppliers" or request.url.path.startswith("/suppliers/"):
+        detail = [
+            {key: issue[key] for key in ("loc", "msg", "type")}
+            for issue in error.errors()
+        ]
+        return JSONResponse({"detail": detail}, status_code=422)
+    return await request_validation_exception_handler(request, error)
 
 
 @app.middleware("http")
 async def local_security(request: Request, call_next):
     origin = request.headers.get("origin")
     expected_origin = f"{request.url.scheme}://{request.headers.get('host', '')}"
-    if request.url.path.startswith("/api/") and (
+    supplier_request = request.url.path == "/suppliers" or request.url.path.startswith("/suppliers/")
+    allowed_origins = {expected_origin}
+    if supplier_request:
+        allowed_origins.update(
+            origin.strip() for origin in os.environ.get("HEALTHCORE_UI_ORIGIN", "http://127.0.0.1:3000").split(",")
+        )
+    if (request.url.path.startswith("/api/") or supplier_request) and (
         request.headers.get("sec-fetch-site") == "cross-site"
-        or (origin is not None and origin != expected_origin)
+        or (origin is not None and origin not in allowed_origins)
     ):
         response = JSONResponse({"detail": "Origen no permitido."}, status_code=403)
     else:
