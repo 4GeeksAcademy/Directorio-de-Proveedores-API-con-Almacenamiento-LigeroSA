@@ -6,11 +6,25 @@
   "description": "TypeScript business logic utilities for HealthCore",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "dev": "tsc --watch --noEmit",
-    "build": "tsc -p tsconfig.json",
-    "start": "npm run build && node dist/index.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "dev:legacy": "tsc --watch --noEmit",
+    "build:legacy": "tsc -p tsconfig.json",
+    "start:legacy": "npm run build:legacy && node dist/index.js"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "postcss": "^8.5.32",
+    "tailwindcss": "^4.3.5",
     "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "next": "^16.4.5",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   }
 }

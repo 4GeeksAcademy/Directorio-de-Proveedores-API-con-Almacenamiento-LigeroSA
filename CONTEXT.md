@@ -29,3 +29,28 @@ HealthCore ha construido algo genuinamente valioso: una red de clínicas en las 
 Los pacientes en EE.UU. reservan por teléfono mientras los del Reino Unido llaman a la recepción — no existe ningún sistema de reservas online compartido. Un quinto de los pacientes no acude a sus citas y no hay ningún sistema de contacto proactivo para prevenirlo. El personal clínico dedica 35 minutos al día a tareas de documentación que la IA podría asistir. Los rechazos de facturación cuestan millones cada año. La formación en cumplimiento se sigue registrando en una hoja de cálculo. Los datos de los pacientes fluyen por sistemas que nunca fueron diseñados para compartir información.
 
 Operar en el sector sanitario añade una capa de responsabilidad que no existe en otras industrias. Los datos de los pacientes están protegidos por ley — HIPAA en EE.UU., UK GDPR en el Reino Unido. Cada sistema que gestione esos datos debe cumplir estándares legales específicos. Los errores no son solo ineficiencias; en el ámbito sanitario, pueden tener consecuencias para pacientes reales.
+
+## Contratación: People & Talent
+
+La herramienta de seguimiento de candidaturas está dirigida al personal de Recursos Humanos, que dispone de todos los permisos de gestión. Los puestos contemplados son administrativo, recepcionista, enfermero, médico y auxiliar de servicio. No se restringe el correo electrónico de los candidatos por dominio corporativo.
+
+### Estados y etapas
+
+Los valores enviados a la API son los siguientes; la interfaz utiliza etiquetas en español:
+
+| Estado | Etiqueta | Etapas compatibles |
+| --- | --- | --- |
+| `received` | Recibida | `pending` |
+| `in_progress` | En proceso | `review`, `personal_interview`, `technical_interview` |
+| `selected` | Seleccionada | `offer_presented` |
+| `discarded` | Descartada | Sin etapa visible |
+
+| Etapa | Etiqueta |
+| --- | --- |
+| `pending` | Pendiente |
+| `review` | Revisión |
+| `personal_interview` | Entrevista personal |
+| `technical_interview` | Entrevista técnica |
+| `offer_presented` | Oferta presentada |
+
+Al pasar una candidatura a `in_progress`, el usuario selecciona una de las tres etapas compatibles. Al descartarla, se conserva su última etapa en la API, pero se oculta en la interfaz.
