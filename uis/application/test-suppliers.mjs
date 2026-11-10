@@ -16,14 +16,13 @@ try {
     const name = `HealthCore prueba ${width} ${Date.now()}`;
     page.on("pageerror", (error) => errors.push(error.message));
     try {
-      await page.goto(baseURL);
-      await page.getByRole("navigation").getByRole("link", { name: "Proveedores" }).click();
-      await page.getByRole("heading", { name: "Iniciar sesión" }).waitFor();
+      await page.goto(`${baseURL}/suppliers`);
+      await page.getByRole("heading", { name: "Iniciar sesion" }).waitFor();
       await page.getByLabel("Email", { exact: true }).fill(email);
-      await page.getByLabel("Contraseña", { exact: true }).fill(password);
+      await page.getByLabel("Contrasena", { exact: true }).fill(password);
       await page.getByRole("button", { name: "Entrar", exact: true }).click();
       await page.getByRole("button", { name: "Nuevo proveedor", exact: true }).waitFor({ state: "visible" });
-      token = await page.evaluate(() => sessionStorage.getItem("healthcore_access_token"));
+      token = await page.evaluate(() => localStorage.getItem("healthcore_access_token"));
       await page.waitForFunction(() => !document.querySelector("main button").disabled);
       await page.getByRole("button", { name: "Nuevo proveedor", exact: true }).click();
       await page.getByRole("textbox", { name: "Nombre", exact: true }).fill(name);

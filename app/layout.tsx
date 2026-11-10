@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AuthProvider } from "../components/auth/auth-provider";
+import { AuthGuard } from "../components/auth/auth-guard";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,7 +20,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <Link href="/suppliers" className="text-sm font-medium text-slate-700 hover:text-teal-800">Proveedores</Link>
           </nav>
         </header>
-        {children}
+        <AuthProvider><AuthGuard>{children}</AuthGuard></AuthProvider>
       </body>
     </html>
   );

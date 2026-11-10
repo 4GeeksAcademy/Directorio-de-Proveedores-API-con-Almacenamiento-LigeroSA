@@ -5,6 +5,7 @@
   "type": "module",
   "description": "TypeScript business logic utilities for HealthCore",
   "scripts": {
+    "test:auth": "node uis/application/test-auth.mjs",
     "test:suppliers": "node uis/application/test-suppliers.mjs",
     "typecheck:app": "tsc --noEmit -p tsconfig.next.json --incremental false",
     "typecheck": "tsc --noEmit",
