@@ -9,6 +9,7 @@ __turbopack_context__.s([
     ()=>CandidateList
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$services$2f$candidates$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/services/candidates.ts [app-client] (ecmascript)");
@@ -16,6 +17,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$types$2f$candidate$2e$ts__$5
 ;
 var _s = __turbopack_context__.k.signature();
 "use client";
+;
 ;
 ;
 ;
@@ -31,7 +33,7 @@ function CandidateListSkeleton() {
                 children: "Cargando candidaturas..."
             }, void 0, false, {
                 fileName: "[project]/components/candidates/candidate-list.tsx",
-                lineNumber: 16,
+                lineNumber: 17,
                 columnNumber: 7
             }, this),
             [
@@ -43,13 +45,13 @@ function CandidateListSkeleton() {
                     className: "h-16 animate-pulse rounded bg-slate-200"
                 }, row, false, {
                     fileName: "[project]/components/candidates/candidate-list.tsx",
-                    lineNumber: 18,
+                    lineNumber: 19,
                     columnNumber: 9
                 }, this))
         ]
     }, void 0, true, {
         fileName: "[project]/components/candidates/candidate-list.tsx",
-        lineNumber: 15,
+        lineNumber: 16,
         columnNumber: 5
     }, this);
 }
@@ -120,7 +122,7 @@ function CandidateList() {
                                 children: "People & Talent"
                             }, void 0, false, {
                                 fileName: "[project]/components/candidates/candidate-list.tsx",
-                                lineNumber: 69,
+                                lineNumber: 70,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -129,33 +131,51 @@ function CandidateList() {
                                 children: "Candidaturas"
                             }, void 0, false, {
                                 fileName: "[project]/components/candidates/candidate-list.tsx",
-                                lineNumber: 70,
+                                lineNumber: 71,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/candidates/candidate-list.tsx",
-                        lineNumber: 68,
+                        lineNumber: 69,
                         columnNumber: 9
                     }, this),
-                    state.kind === "success" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-sm text-slate-600",
-                        role: "status",
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex flex-wrap items-center gap-4",
                         children: [
-                            filtered.length,
-                            " de ",
-                            state.candidates.length,
-                            " candidaturas"
+                            state.kind === "success" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-sm text-slate-600",
+                                role: "status",
+                                children: [
+                                    filtered.length,
+                                    " de ",
+                                    state.candidates.length,
+                                    " candidaturas"
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/components/candidates/candidate-list.tsx",
+                                lineNumber: 74,
+                                columnNumber: 40
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                href: "/candidates/new",
+                                className: "rounded bg-teal-800 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-900",
+                                children: "Nueva candidatura"
+                            }, void 0, false, {
+                                fileName: "[project]/components/candidates/candidate-list.tsx",
+                                lineNumber: 75,
+                                columnNumber: 11
+                            }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/candidates/candidate-list.tsx",
-                        lineNumber: 72,
-                        columnNumber: 38
+                        lineNumber: 73,
+                        columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/candidates/candidate-list.tsx",
-                lineNumber: 67,
+                lineNumber: 68,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -168,7 +188,7 @@ function CandidateList() {
                                 children: "Buscar por nombre o correo"
                             }, void 0, false, {
                                 fileName: "[project]/components/candidates/candidate-list.tsx",
-                                lineNumber: 77,
+                                lineNumber: 81,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -178,49 +198,6 @@ function CandidateList() {
                                 placeholder: "Nombre o correo",
                                 className: "w-full rounded border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-100"
                             }, void 0, false, {
-                                fileName: "[project]/components/candidates/candidate-list.tsx",
-                                lineNumber: 78,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/candidates/candidate-list.tsx",
-                        lineNumber: 76,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                        className: "space-y-1.5 text-sm font-medium text-slate-700",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                children: "Estado"
-                            }, void 0, false, {
-                                fileName: "[project]/components/candidates/candidate-list.tsx",
-                                lineNumber: 81,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                                value: status,
-                                onChange: (event)=>updateFilter("status", event.target.value),
-                                className: "w-full rounded border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-100",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                        value: "",
-                                        children: "Todos los estados"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/candidates/candidate-list.tsx",
-                                        lineNumber: 83,
-                                        columnNumber: 13
-                                    }, this),
-                                    Object.entries(__TURBOPACK__imported__module__$5b$project$5d2f$types$2f$candidate$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["statusLabels"]).map(([value, label])=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                            value: value,
-                                            children: label
-                                        }, value, false, {
-                                            fileName: "[project]/components/candidates/candidate-list.tsx",
-                                            lineNumber: 84,
-                                            columnNumber: 67
-                                        }, this))
-                                ]
-                            }, void 0, true, {
                                 fileName: "[project]/components/candidates/candidate-list.tsx",
                                 lineNumber: 82,
                                 columnNumber: 11
@@ -235,10 +212,53 @@ function CandidateList() {
                         className: "space-y-1.5 text-sm font-medium text-slate-700",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                children: "Estado"
+                            }, void 0, false, {
+                                fileName: "[project]/components/candidates/candidate-list.tsx",
+                                lineNumber: 85,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                value: status,
+                                onChange: (event)=>updateFilter("status", event.target.value),
+                                className: "w-full rounded border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-100",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "",
+                                        children: "Todos los estados"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/candidates/candidate-list.tsx",
+                                        lineNumber: 87,
+                                        columnNumber: 13
+                                    }, this),
+                                    Object.entries(__TURBOPACK__imported__module__$5b$project$5d2f$types$2f$candidate$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["statusLabels"]).map(([value, label])=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                            value: value,
+                                            children: label
+                                        }, value, false, {
+                                            fileName: "[project]/components/candidates/candidate-list.tsx",
+                                            lineNumber: 88,
+                                            columnNumber: 67
+                                        }, this))
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/components/candidates/candidate-list.tsx",
+                                lineNumber: 86,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/candidates/candidate-list.tsx",
+                        lineNumber: 84,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                        className: "space-y-1.5 text-sm font-medium text-slate-700",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 children: "Etapa"
                             }, void 0, false, {
                                 fileName: "[project]/components/candidates/candidate-list.tsx",
-                                lineNumber: 88,
+                                lineNumber: 92,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -251,7 +271,7 @@ function CandidateList() {
                                         children: "Todas las etapas"
                                     }, void 0, false, {
                                         fileName: "[project]/components/candidates/candidate-list.tsx",
-                                        lineNumber: 90,
+                                        lineNumber: 94,
                                         columnNumber: 13
                                     }, this),
                                     Object.entries(__TURBOPACK__imported__module__$5b$project$5d2f$types$2f$candidate$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stageLabels"]).map(([value, label])=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -259,30 +279,30 @@ function CandidateList() {
                                             children: label
                                         }, value, false, {
                                             fileName: "[project]/components/candidates/candidate-list.tsx",
-                                            lineNumber: 91,
+                                            lineNumber: 95,
                                             columnNumber: 66
                                         }, this))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/candidates/candidate-list.tsx",
-                                lineNumber: 89,
+                                lineNumber: 93,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/candidates/candidate-list.tsx",
-                        lineNumber: 87,
+                        lineNumber: 91,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/candidates/candidate-list.tsx",
-                lineNumber: 75,
+                lineNumber: 79,
                 columnNumber: 7
             }, this),
             state.kind === "loading" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CandidateListSkeleton, {}, void 0, false, {
                 fileName: "[project]/components/candidates/candidate-list.tsx",
-                lineNumber: 96,
+                lineNumber: 100,
                 columnNumber: 36
             }, this),
             state.kind === "error" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -294,7 +314,7 @@ function CandidateList() {
                         children: "No se pudieron cargar las candidaturas."
                     }, void 0, false, {
                         fileName: "[project]/components/candidates/candidate-list.tsx",
-                        lineNumber: 99,
+                        lineNumber: 103,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -302,7 +322,7 @@ function CandidateList() {
                         children: state.message
                     }, void 0, false, {
                         fileName: "[project]/components/candidates/candidate-list.tsx",
-                        lineNumber: 100,
+                        lineNumber: 104,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -312,13 +332,13 @@ function CandidateList() {
                         children: "Reintentar"
                     }, void 0, false, {
                         fileName: "[project]/components/candidates/candidate-list.tsx",
-                        lineNumber: 101,
+                        lineNumber: 105,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/candidates/candidate-list.tsx",
-                lineNumber: 98,
+                lineNumber: 102,
                 columnNumber: 9
             }, this),
             state.kind === "success" && (filtered.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -326,13 +346,56 @@ function CandidateList() {
                 children: "No hay candidaturas que coincidan con los filtros."
             }, void 0, false, {
                 fileName: "[project]/components/candidates/candidate-list.tsx",
-                lineNumber: 105,
+                lineNumber: 109,
                 columnNumber: 9
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "overflow-x-auto",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
-                    className: "w-full min-w-[640px] text-left text-sm",
+                    className: "w-full min-w-[760px] table-fixed text-left text-sm",
                     children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("colgroup", {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                                    className: "w-[30%]"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/candidates/candidate-list.tsx",
+                                    lineNumber: 114,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                                    className: "w-[20%]"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/candidates/candidate-list.tsx",
+                                    lineNumber: 115,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                                    className: "w-[15%]"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/candidates/candidate-list.tsx",
+                                    lineNumber: 116,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                                    className: "w-[20%]"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/candidates/candidate-list.tsx",
+                                    lineNumber: 117,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                                    className: "w-[15%]"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/candidates/candidate-list.tsx",
+                                    lineNumber: 118,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/candidates/candidate-list.tsx",
+                            lineNumber: 113,
+                            columnNumber: 13
+                        }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("thead", {
                             className: "border-b border-slate-200 text-xs uppercase text-slate-500",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
@@ -343,7 +406,7 @@ function CandidateList() {
                                         children: "Candidato/a"
                                     }, void 0, false, {
                                         fileName: "[project]/components/candidates/candidate-list.tsx",
-                                        lineNumber: 110,
+                                        lineNumber: 121,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -352,7 +415,7 @@ function CandidateList() {
                                         children: "Puesto"
                                     }, void 0, false, {
                                         fileName: "[project]/components/candidates/candidate-list.tsx",
-                                        lineNumber: 110,
+                                        lineNumber: 121,
                                         columnNumber: 87
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -361,27 +424,36 @@ function CandidateList() {
                                         children: "Estado"
                                     }, void 0, false, {
                                         fileName: "[project]/components/candidates/candidate-list.tsx",
-                                        lineNumber: 110,
+                                        lineNumber: 121,
                                         columnNumber: 150
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                         scope: "col",
-                                        className: "py-4 font-semibold",
+                                        className: "py-4 pr-4 font-semibold",
                                         children: "Etapa"
                                     }, void 0, false, {
                                         fileName: "[project]/components/candidates/candidate-list.tsx",
-                                        lineNumber: 110,
+                                        lineNumber: 121,
                                         columnNumber: 213
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                        scope: "col",
+                                        className: "py-4 font-semibold",
+                                        children: "Acciones"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/candidates/candidate-list.tsx",
+                                        lineNumber: 121,
+                                        columnNumber: 275
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/candidates/candidate-list.tsx",
-                                lineNumber: 110,
+                                lineNumber: 121,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/candidates/candidate-list.tsx",
-                            lineNumber: 109,
+                            lineNumber: 120,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -389,36 +461,37 @@ function CandidateList() {
                             children: filtered.map((candidate)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                            className: "py-4 pr-4",
+                                            className: "break-words py-4 pr-4",
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "font-semibold text-slate-900",
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                    href: `/candidates/${encodeURIComponent(candidate.id)}`,
+                                                    className: "font-semibold text-teal-800 underline-offset-4 hover:underline",
                                                     children: candidate.full_name
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/candidates/candidate-list.tsx",
-                                                    lineNumber: 115,
-                                                    columnNumber: 45
+                                                    lineNumber: 126,
+                                                    columnNumber: 57
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "mt-1 text-slate-500",
+                                                    className: "mt-1 break-all text-slate-500",
                                                     children: candidate.email
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/candidates/candidate-list.tsx",
-                                                    lineNumber: 115,
-                                                    columnNumber: 118
+                                                    lineNumber: 126,
+                                                    columnNumber: 223
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/candidates/candidate-list.tsx",
-                                            lineNumber: 115,
+                                            lineNumber: 126,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                            className: "py-4 pr-4 text-slate-700",
+                                            className: "break-words py-4 pr-4 text-slate-700",
                                             children: candidate.position
                                         }, void 0, false, {
                                             fileName: "[project]/components/candidates/candidate-list.tsx",
-                                            lineNumber: 116,
+                                            lineNumber: 127,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -426,43 +499,60 @@ function CandidateList() {
                                             children: __TURBOPACK__imported__module__$5b$project$5d2f$types$2f$candidate$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["statusLabels"][candidate.status] ?? candidate.status
                                         }, void 0, false, {
                                             fileName: "[project]/components/candidates/candidate-list.tsx",
-                                            lineNumber: 117,
+                                            lineNumber: 128,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                            className: "py-4 text-slate-700",
+                                            className: "py-4 pr-4 text-slate-700",
                                             children: candidate.status === "discarded" ? "Sin etapa" : __TURBOPACK__imported__module__$5b$project$5d2f$types$2f$candidate$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stageLabels"][candidate.stage] ?? candidate.stage
                                         }, void 0, false, {
                                             fileName: "[project]/components/candidates/candidate-list.tsx",
-                                            lineNumber: 118,
+                                            lineNumber: 129,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                            className: "py-4",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                href: `/candidates/${encodeURIComponent(candidate.id)}`,
+                                                "aria-label": `Gestionar candidatura de ${candidate.full_name}`,
+                                                className: "inline-block rounded border border-teal-800 px-3 py-1.5 font-semibold text-teal-800 hover:bg-teal-50",
+                                                children: "Gestionar"
+                                            }, void 0, false, {
+                                                fileName: "[project]/components/candidates/candidate-list.tsx",
+                                                lineNumber: 130,
+                                                columnNumber: 40
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/candidates/candidate-list.tsx",
+                                            lineNumber: 130,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, candidate.id, true, {
                                     fileName: "[project]/components/candidates/candidate-list.tsx",
-                                    lineNumber: 114,
+                                    lineNumber: 125,
                                     columnNumber: 17
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/components/candidates/candidate-list.tsx",
-                            lineNumber: 112,
+                            lineNumber: 123,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/candidates/candidate-list.tsx",
-                    lineNumber: 108,
+                    lineNumber: 112,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/candidates/candidate-list.tsx",
-                lineNumber: 107,
+                lineNumber: 111,
                 columnNumber: 9
             }, this))
         ]
     }, void 0, true, {
         fileName: "[project]/components/candidates/candidate-list.tsx",
-        lineNumber: 66,
+        lineNumber: 67,
         columnNumber: 5
     }, this);
 }
@@ -714,16 +804,39 @@ module.exports = __turbopack_context__.r("[project]/node_modules/next/dist/clien
 "use strict";
 
 __turbopack_context__.s([
+    "CandidateSaveError",
+    ()=>CandidateSaveError,
+    "apiUrl",
+    ()=>apiUrl,
+    "getCandidate",
+    ()=>getCandidate,
     "getCandidates",
-    ()=>getCandidates
+    ()=>getCandidates,
+    "saveCandidate",
+    ()=>saveCandidate,
+    "updateCandidateProgress",
+    ()=>updateCandidateProgress
 ]);
-const API_URL = "https://playground.4geeks.com/tracker/api/v1";
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
+const API_URL = ("TURBOPACK compile-time value", "https://playground.4geeks.com/tracker/api/v1");
+class CandidateSaveError extends Error {
+    status;
+    constructor(status){
+        super(`La API respondió con el código ${status}.`), this.status = status;
+        this.name = "CandidateSaveError";
+    }
+}
+function apiUrl(path) {
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    return `${API_URL.replace(/\/$/, "")}${path}`;
+}
 async function getCandidates(signal) {
     const candidates = [];
     let page = 1;
     let total = 0;
     do {
-        const response = await fetch(`${API_URL}/records?page=${page}&limit=100`, {
+        const response = await fetch(apiUrl(`/records?page=${page}&limit=100`), {
             signal
         });
         if (!response.ok) {
@@ -741,6 +854,35 @@ async function getCandidates(signal) {
         page += 1;
     }while (candidates.length < total)
     return candidates;
+}
+async function getCandidate(id, signal) {
+    const response = await fetch(apiUrl(`/records/${encodeURIComponent(id)}`), {
+        signal
+    });
+    if (!response.ok) throw new Error(`La API respondió con el código ${response.status}.`);
+    return await response.json();
+}
+async function updateCandidateProgress(id, progress) {
+    const response = await fetch(apiUrl(`/records/${encodeURIComponent(id)}`), {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(progress)
+    });
+    if (!response.ok) throw new Error(`La API respondió con el código ${response.status}.`);
+    return await response.json();
+}
+async function saveCandidate(input, id) {
+    const response = await fetch(apiUrl(id ? `/records/${encodeURIComponent(id)}` : "/records"), {
+        method: id ? "PUT" : "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(input)
+    });
+    if (!response.ok) throw new CandidateSaveError(response.status);
+    return await response.json();
 }
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);

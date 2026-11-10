@@ -3,6 +3,13 @@ name: Incidents local analysis
 on:
   push:
     paths:
+      - "app/**"
+      - "uis/application/**"
+      - "package*.json"
+      - "next.config.mjs"
+      - "tsconfig.next.json"
+      - "pyproject.toml"
+      - "uv.lock"
       - "packages/incidents/**"
       - "scripts/analyze.py"
       - "services/api/**"
@@ -11,6 +18,13 @@ on:
       - ".github/workflows/incidents.yml"
   pull_request:
     paths:
+      - "app/**"
+      - "uis/application/**"
+      - "package*.json"
+      - "next.config.mjs"
+      - "tsconfig.next.json"
+      - "pyproject.toml"
+      - "uv.lock"
       - "packages/incidents/**"
       - "scripts/analyze.py"
       - "services/api/**"
@@ -47,7 +61,7 @@ jobs:
           npm --prefix uis/backoffice ci
           npm --prefix uis/backoffice exec -- playwright install --with-deps chromium
       - name: Test CLI and API
-        run: python -m unittest packages.incidents.test_analysis services.api.test_api -v
+        run: python -m unittest packages.incidents.test_analysis services.api.test_api services.api.test_suppliers -v
       - name: Test local backoffice
         run: |
           python -m uvicorn services.api.main:app --host 127.0.0.1 --port 8765 --no-access-log &
@@ -55,3 +69,37 @@ jobs:
           trap 'kill "$api_pid"' EXIT
           curl --fail --silent --show-error --retry 10 --retry-connrefused --retry-delay 1 http://127.0.0.1:8765/api/incidents/schema > /dev/null
           npm --prefix uis/backoffice test
+
+  suppliers-ui:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install dependencies
+        run: |
+          python -m pip install --require-hashes -r services/api/requirements.lock
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Check and build application
+        run: |
+          npm run typecheck:app
+          npm run build
+      - name: Test supplier workflows
+        env:
+          HEALTHCORE_DB_PATH: /tmp/healthcore-suppliers-ci.json
+        run: |
+          python -m uvicorn services.api.main:app --host 127.0.0.1 --port 8765 --no-access-log &
+          api_pid=$!
+          npm run start -- --hostname 127.0.0.1 --port 3000 &
+          ui_pid=$!
+          trap 'kill "$api_pid" "$ui_pid"' EXIT
+          curl --fail --silent --show-error --retry 10 --retry-connrefused --retry-delay 1 http://127.0.0.1:8765/suppliers > /dev/null
+          curl --fail --silent --show-error --retry 10 --retry-connrefused --retry-delay 1 http://127.0.0.1:3000/suppliers > /dev/null
+          npm run test:suppliers
