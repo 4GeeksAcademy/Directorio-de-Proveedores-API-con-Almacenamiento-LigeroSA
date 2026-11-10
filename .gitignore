@@ -3,3 +3,6 @@ __pycache__/
 *.py[cod]
 *.csv
 .venv-api/
+
+.next/
+node_modules/
