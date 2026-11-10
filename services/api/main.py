@@ -16,7 +16,10 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from packages.incidents.analysis import AnalysisResult, CSVInputError, CSVResourceLimitError, MAX_FILE_BYTES, analyze_csv, results_csv
 from packages.incidents.rules import RULES
+from services.api.routes.auth import router as auth_router
+from services.api.routes.profiles import router as profiles_router
 from services.api.routes.suppliers import router as suppliers_router
+from services.api.routes.users import router as users_router
 
 
 FRONTEND = Path(__file__).resolve().parents[2] / "uis" / "backoffice"
@@ -64,6 +67,9 @@ app = FastAPI(title="HealthCore | Análisis local", docs_url=None, redoc_url=Non
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "[::1]", "testserver"])
 app.state.results = {}
 app.state.active_analyses = 0
+app.include_router(auth_router)
+app.include_router(users_router)
+app.include_router(profiles_router)
 app.include_router(suppliers_router)
 
 

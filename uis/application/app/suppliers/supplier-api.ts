@@ -18,16 +18,46 @@ export type SupplierInput = {
 };
 export type Supplier = SupplierInput & { id: string; updated_at: string };
 
+const tokenKey = "healthcore_access_token";
+
+export class AuthRequiredError extends Error {}
+
+export function getStoredToken(): string | null {
+  return sessionStorage.getItem(tokenKey);
+}
+
+export function storeToken(token: string | null) {
+  if (token) sessionStorage.setItem(tokenKey, token);
+  else sessionStorage.removeItem(tokenKey);
+}
+
+export async function login(email: string, password: string): Promise<string> {
+  const response = await fetch("/api/auth/login", {
+    method: "POST",
+    cache: "no-store",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  const body = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(typeof body?.detail === "string" ? body.detail : "No se pudo iniciar sesión.");
+  return body.access_token as string;
+}
+
 const fieldLabels: Record<string, string> = {
   name: "Nombre", country: "País", category: "Categoría", rate: "Tarifa", status: "Estado",
 };
 
 export async function supplierRequest<Result>(path = "", options: RequestInit = {}): Promise<Result> {
+  const token = getStoredToken();
   const response = await fetch(`/api/suppliers${path}`, {
     ...options,
     cache: "no-store",
-    headers: { "Content-Type": "application/json", ...options.headers },
+    headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers },
   });
+  if (response.status === 401) {
+    storeToken(null);
+    throw new AuthRequiredError("Tu sesión ha caducado. Inicia sesión de nuevo.");
+  }
   if (!response.ok) {
     const body = await response.json().catch(() => null);
     if (response.status === 422 && Array.isArray(body?.detail)) {

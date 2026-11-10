@@ -2,7 +2,7 @@
 
 import { Plus, Save, Trash2, X } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
-import { categoryLabels, supplierRequest, type Supplier, type SupplierCategory, type SupplierInput } from "./supplier-api";
+import { AuthRequiredError, categoryLabels, getStoredToken, login, storeToken, supplierRequest, type Supplier, type SupplierCategory, type SupplierInput } from "./supplier-api";
 
 const inputClass = "w-full rounded border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-100 disabled:opacity-60";
 const iconClass = "inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-slate-300 text-teal-800 hover:bg-teal-50 disabled:opacity-40";
@@ -132,7 +132,44 @@ function CreateSupplier({ onCreated, onCancel }: { onCreated: (supplier: Supplie
   );
 }
 
+function LoginPanel({ onLogin }: { onLogin: () => void }) {
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    setBusy(true);
+    setError("");
+    try {
+      storeToken(await login(String(data.get("email")), String(data.get("password"))));
+      onLogin();
+    } catch (failure) {
+      setError(errorMessage(failure));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <main className="mx-auto min-h-screen max-w-md px-4 py-16 sm:px-8">
+      <p className="text-xs font-semibold uppercase text-teal-700">HealthCore · Operaciones</p>
+      <h1 className="mt-1 text-2xl font-semibold">Iniciar sesión</h1>
+      <form className="mt-6" onSubmit={(event) => void submit(event)}>
+        <fieldset disabled={busy} className="grid gap-4">
+          <label className="space-y-1 text-sm font-medium">Email<input className={inputClass} name="email" type="email" autoComplete="username" required /></label>
+          <label className="space-y-1 text-sm font-medium">Contraseña<input className={inputClass} name="password" type="password" autoComplete="current-password" required /></label>
+          <button type="submit" className="inline-flex min-h-10 items-center justify-center rounded bg-teal-800 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-900 disabled:opacity-50">{busy ? "Entrando..." : "Entrar"}</button>
+        </fieldset>
+        {error && <p role="alert" className="mt-4 border-l-4 border-red-600 bg-red-50 p-3 text-sm text-red-900">{error}</p>}
+      </form>
+    </main>
+  );
+}
+
 export default function SuppliersPage() {
+  const [checked, setChecked] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -143,18 +180,29 @@ export default function SuppliersPage() {
   const [notice, setNotice] = useState("");
 
   useEffect(() => {
+    setAuthenticated(getStoredToken() !== null);
+    setChecked(true);
+  }, []);
+
+  useEffect(() => {
+    if (!authenticated) return;
     const controller = new AbortController();
     setLoading(true);
     setError("");
     supplierRequest<Supplier[]>("", { signal: controller.signal }).then((items) => {
       if (!controller.signal.aborted) setSuppliers(items);
     }).catch((failure: unknown) => {
-      if (!controller.signal.aborted) setError(errorMessage(failure));
+      if (controller.signal.aborted) return;
+      if (failure instanceof AuthRequiredError) setAuthenticated(false);
+      else setError(errorMessage(failure));
     }).finally(() => {
       if (!controller.signal.aborted) setLoading(false);
     });
     return () => controller.abort();
-  }, [attempt]);
+  }, [attempt, authenticated]);
+
+  if (!checked) return null;
+  if (!authenticated) return <LoginPanel onLogin={() => setAuthenticated(true)} />;
 
   const filtered = suppliers.filter((supplier) => (!country || supplier.country === country) && (!category || supplier.category === category));
 

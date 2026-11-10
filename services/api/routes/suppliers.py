@@ -3,9 +3,10 @@
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException, Response
 from tinydb import Query
 
+from services.api.auth.dependencies import get_current_user
 from services.api.database import supplier_table
 from services.api.models import (
     Country,
@@ -17,7 +18,7 @@ from services.api.models import (
 )
 
 
-router = APIRouter(prefix="/suppliers", tags=["suppliers"])
+router = APIRouter(prefix="/suppliers", tags=["suppliers"], dependencies=[Depends(get_current_user)])
 
 
 def timestamp() -> str:

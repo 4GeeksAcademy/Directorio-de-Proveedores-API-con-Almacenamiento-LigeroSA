@@ -14,10 +14,10 @@
   },
   {
     "route": "/suppliers",
-    "firstLoadUncompressedJsBytes": 479944,
+    "firstLoadUncompressedJsBytes": 480041,
     "firstLoadChunkPaths": [
       ".next/static/chunks/08mika-44sn50.js",
-      ".next/static/chunks/0vf1b_s25vo5o.js",
+      ".next/static/chunks/3byz97v9ww338.js",
       ".next/static/chunks/310vm2bl3xxpt.js",
       ".next/static/chunks/1wnov70f88xjy.js",
       ".next/static/chunks/23e6jep2anmtk.js",

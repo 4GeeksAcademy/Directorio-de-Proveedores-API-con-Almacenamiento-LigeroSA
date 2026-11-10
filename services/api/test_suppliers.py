@@ -8,6 +8,7 @@ from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
+from services.api.auth.config import get_settings
 from services.api.main import app
 from services.api.seed import SUPPLIERS, seed
 
@@ -16,14 +17,24 @@ class SupplierTests(unittest.TestCase):
     def setUp(self):
         self.directory = tempfile.TemporaryDirectory()
         self.path = Path(self.directory.name) / "suppliers.json"
-        self.environment = patch.dict(os.environ, {"HEALTHCORE_DB_PATH": str(self.path)})
+        self.environment = patch.dict(os.environ, {
+            "HEALTHCORE_DB_PATH": str(self.path),
+            "HEALTHCORE_USERS_DB_PATH": str(Path(self.directory.name) / "users.json"),
+            "JWT_SECRET_KEY": "clave-solo-para-tests-de-proveedores",
+        })
         self.environment.start()
+        get_settings.cache_clear()
         self.client = TestClient(app)
+        credentials = dict(email="tester@example.com", password="clave-segura-prueba")
+        self.client.post("/users", json=credentials)
+        token = self.client.post("/auth/login", json=credentials).json()["access_token"]
+        self.client.headers["Authorization"] = f"Bearer {token}"
         self.payload = dict(name="Epic Systems", country="US", category="health_tech_software", rate=185, status="activo")
 
     def tearDown(self):
         self.client.close()
         self.environment.stop()
+        get_settings.cache_clear()
         self.directory.cleanup()
 
     def create(self, **changes):

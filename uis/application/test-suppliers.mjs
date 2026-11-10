@@ -2,6 +2,9 @@ import assert from "node:assert/strict";
 import { chromium } from "playwright";
 
 const baseURL = process.env.BASE_URL || "http://127.0.0.1:3000";
+const email = process.env.HEALTHCORE_TEST_EMAIL;
+const password = process.env.HEALTHCORE_TEST_PASSWORD;
+assert.ok(email && password, "Define HEALTHCORE_TEST_EMAIL y HEALTHCORE_TEST_PASSWORD con un usuario existente.");
 const browser = await chromium.launch({ headless: true });
 try {
   for (const width of [1440, 390, 320]) {
@@ -9,12 +12,18 @@ try {
     const page = await context.newPage();
     const errors = [];
     const createdIds = [];
+    let token = "";
     const name = `HealthCore prueba ${width} ${Date.now()}`;
     page.on("pageerror", (error) => errors.push(error.message));
     try {
       await page.goto(baseURL);
       await page.getByRole("navigation").getByRole("link", { name: "Proveedores" }).click();
+      await page.getByRole("heading", { name: "Iniciar sesión" }).waitFor();
+      await page.getByLabel("Email", { exact: true }).fill(email);
+      await page.getByLabel("Contraseña", { exact: true }).fill(password);
+      await page.getByRole("button", { name: "Entrar", exact: true }).click();
       await page.getByRole("button", { name: "Nuevo proveedor", exact: true }).waitFor({ state: "visible" });
+      token = await page.evaluate(() => sessionStorage.getItem("healthcore_access_token"));
       await page.waitForFunction(() => !document.querySelector("main button").disabled);
       await page.getByRole("button", { name: "Nuevo proveedor", exact: true }).click();
       await page.getByRole("textbox", { name: "Nombre", exact: true }).fill(name);
@@ -72,7 +81,7 @@ try {
       assert.deepEqual(errors, []);
       console.log(`OK ${width}px: navegación, filtros, errores 422, creación, tarifa, estado, persistencia, eliminación y sin desbordamientos.`);
     } finally {
-      for (const id of createdIds) await context.request.delete(`${baseURL}/api/suppliers/${id}`);
+      for (const id of createdIds) await context.request.delete(`${baseURL}/api/suppliers/${id}`, { headers: { Authorization: `Bearer ${token}` } });
       await context.close();
     }
   }
