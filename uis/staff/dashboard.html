@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>HealthCore | Panel de staff</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Stack+Sans+Text:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/staff/assets/staff.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="flex w-full flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+        <a href="/" class="hero-title-shadow font-brand text-[27.6px] font-bold">HealthCore</a>
+        <div class="flex min-w-0 items-center gap-3">
+          <span id="userEmail" class="min-w-0 truncate text-sm text-white/80"></span>
+          <button id="logout" type="button" class="btn-pill">Cerrar sesión</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-[240px_1fr]">
+      <nav class="flex flex-wrap gap-1 border-b border-navy/10 bg-white p-3 md:flex-col md:border-r md:border-b-0 md:p-5" aria-label="Menú de staff">
+        <a href="#agendas" class="sidebar-link">Gestión de agendas</a>
+        <a href="#facturacion" class="sidebar-link">Gestión de facturación</a>
+        <a href="#analisis" class="sidebar-link">Análisis de servicios</a>
+      </nav>
+
+      <main class="mx-auto w-full min-w-0 max-w-none p-5 sm:p-6">
+        <section id="agendas" class="hidden">
+          <span class="eyebrow">Agenda</span>
+          <h1 class="my-3 text-3xl font-bold sm:text-4xl">Gestión de agendas</h1>
+          <div class="card">
+            <div class="mb-6 grid grid-cols-1 gap-x-5 gap-y-4 sm:grid-cols-2 xl:grid-cols-4">
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">País
+                <select id="filterCountry" class="control">
+                  <option value="">Todos</option>
+                  <option value="US">Estados Unidos</option>
+                  <option value="UK">Reino Unido</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Región
+                <select id="filterRegion" class="control">
+                  <option value="">Todas</option>
+                  <option value="Texas" data-country="US">Texas</option>
+                  <option value="Florida" data-country="US">Florida</option>
+                  <option value="Georgia" data-country="US">Georgia</option>
+                  <option value="London" data-country="UK">Londres</option>
+                  <option value="Manchester" data-country="UK">Manchester</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Tipo de consulta
+                <select id="filterService" class="control">
+                  <option value="">Todas</option>
+                  <option value="primary-care">Atención primaria</option>
+                  <option value="specialist">Consulta con especialista</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Fecha deseada
+                <input id="filterDate" type="date" class="control" />
+              </label>
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Prestador
+                <select id="filterProvider" class="control">
+                  <option value="">Todos</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Estado
+                <select id="filterStatus" class="control">
+                  <option value="">Todos</option>
+                  <option value="reservada">Gestionar</option>
+                  <option value="coordinado">Coordinado</option>
+                  <option value="cumplido">Cumplido</option>
+                  <option value="no concurrencia">No concurrencia</option>
+                  <option value="cancelado">Cancelado</option>
+                  <option value="cancelacion tardia">Cancelacion tardia</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Nombre o documento
+                <input id="filterSearch" type="search" class="control" />
+              </label>
+            </div>
+            <div class="mb-4 flex flex-wrap gap-2">
+              <button id="viewList" type="button" class="chip" aria-pressed="true">Lista</button>
+              <button id="viewDay" type="button" class="chip" aria-pressed="false">Por día</button>
+              <button id="viewWeek" type="button" class="chip" aria-pressed="false">Por semana</button>
+            </div>
+            <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+              <p id="agendaStatus" class="text-slate-500"></p>
+              <a id="exportCsv" href="/api/staff/agenda/export.csv" class="chip" download>Exportar agenda (CSV)</a>
+            </div>
+            <div class="mt-4 overflow-x-auto rounded-xl border border-navy/10">
+              <table class="min-w-[940px] w-full border-collapse text-sm">
+                <thead>
+                  <tr>
+                    <th class="th">Fecha solicitada</th>
+                    <th class="th">Cita</th>
+                    <th class="th">País</th>
+                    <th class="th">Región</th>
+                    <th class="th">Nombre y apellido</th>
+                    <th class="th">Servicio</th>
+                    <th class="th">Estado</th>
+                    <th class="th">Ver ficha</th>
+                  </tr>
+                </thead>
+                <tbody id="agendaRows"></tbody>
+              </table>
+            </div>
+            <div id="fichaPanel" class="fixed top-1/2 left-1/2 z-50 max-h-[calc(100vh-2rem)] w-[min(560px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 animate-ficha ficha-scroll overflow-y-auto rounded-3xl border border-navy/10 bg-white p-6 shadow-ficha sm:p-7 hidden" role="dialog" aria-modal="true" aria-labelledby="fichaTitle" tabindex="-1"></div>
+          </div>
+          <div id="offerOverlay" class="fixed inset-0 z-40 hidden bg-navy/40"></div>
+          <div id="offerModal" class="fixed top-1/2 left-1/2 z-50 max-h-[calc(100vh-2rem)] w-[min(640px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 animate-ficha overflow-y-auto rounded-2xl border border-navy/10 bg-white px-5 py-5 shadow-ficha sm:px-6 hidden" role="dialog" aria-modal="true" aria-labelledby="offerTitle" tabindex="-1">
+            <h2 id="offerTitle" class="mb-2 text-xl font-bold">Ofrecer horario</h2>
+            <p id="offerTarget" class="text-slate-500">Use "Ofrecer horario" en una solicitud pendiente.</p>
+            <label class="mt-4 flex max-w-xs flex-col gap-1.5 text-sm font-semibold">Fecha
+              <input id="offerDate" type="date" class="control" />
+            </label>
+            <p id="offerStatus" class="mt-3 text-slate-500" role="status" aria-live="polite"></p>
+            <div id="offerSlots" class="mt-3 flex flex-wrap gap-2"></div>
+            <div class="mt-5 flex justify-end border-t border-navy/10 pt-4">
+              <button id="offerClose" type="button" class="chip px-4 py-2 text-sm font-semibold">Cerrar</button>
+            </div>
+          </div>
+          <div id="freedCard" class="card mt-6">
+            <h2 class="mb-2 text-xl font-bold">Servicios cancelados</h2>
+            <p class="text-slate-500">Horarios liberados. El asistente sugiere a quién ofrecerlos; usted confirma cada oferta.</p>
+            <p id="freedStatus" class="mt-3 text-slate-500" role="status" aria-live="polite"></p>
+            <div class="mt-4 overflow-x-auto">
+              <table class="w-full border-collapse text-sm">
+                <thead>
+                  <tr>
+                    <th class="th">Cita</th>
+                    <th class="th">Paciente cancelado</th>
+                    <th class="th">Prestador</th>
+                    <th class="th">Servicio</th>
+                    <th class="th">Estado</th>
+                    <th class="th">Destinatarios</th>
+                  </tr>
+                </thead>
+                <tbody id="freedRows"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card mt-6">
+            <h2 class="mb-4 text-xl font-bold">Prestadores</h2>
+            <form id="providerForm" class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Nombre
+                <input id="providerFirstName" class="control" required minlength="2" maxlength="80" />
+              </label>
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Apellido
+                <input id="providerLastName" class="control" required minlength="2" maxlength="80" />
+              </label>
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Especialidad
+                <select id="providerService" class="control" required>
+                  <option value="primary-care">Atención primaria</option>
+                  <option value="specialist">Consulta con especialista</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Región
+                <select id="providerRegion" class="control" required>
+                  <option value="Texas">Texas</option>
+                  <option value="Florida">Florida</option>
+                  <option value="Georgia">Georgia</option>
+                  <option value="London">Londres</option>
+                  <option value="Manchester">Manchester</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Hora de inicio
+                <input id="providerStart" type="time" class="control" required />
+              </label>
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Hora de fin
+                <input id="providerEnd" type="time" class="control" required />
+              </label>
+              <fieldset class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold sm:col-span-2">
+                <legend class="mb-1.5">Días de consulta</legend>
+                <div class="flex flex-wrap gap-2">
+                  <label class="chip"><input type="checkbox" name="providerDay" value="0" /> Lunes</label>
+                  <label class="chip"><input type="checkbox" name="providerDay" value="1" /> Martes</label>
+                  <label class="chip"><input type="checkbox" name="providerDay" value="2" /> Miércoles</label>
+                  <label class="chip"><input type="checkbox" name="providerDay" value="3" /> Jueves</label>
+                  <label class="chip"><input type="checkbox" name="providerDay" value="4" /> Viernes</label>
+                  <label class="chip"><input type="checkbox" name="providerDay" value="5" /> Sábado</label>
+                  <label class="chip"><input type="checkbox" name="providerDay" value="6" /> Domingo</label>
+                </div>
+              </fieldset>
+              <div class="flex items-end">
+                <button type="submit" class="chip px-4 py-2 text-sm font-semibold">Guardar prestador</button>
+              </div>
+            </form>
+            <p id="providerStatus" class="mt-3 text-slate-500" role="status" aria-live="polite"></p>
+            <div class="mt-3">
+              <table class="w-full border-collapse text-sm">
+                <thead>
+                  <tr>
+                    <th class="th">Nombre</th>
+                    <th class="th">Especialidad</th>
+                    <th class="th">Región</th>
+                    <th class="th">Días</th>
+                    <th class="th">Horario</th>
+                  </tr>
+                </thead>
+                <tbody id="providerRows"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="facturacion" class="hidden">
+          <span class="eyebrow">Facturación</span>
+          <h1 class="my-3 text-3xl font-bold sm:text-4xl">Gestión de facturación</h1>
+          <div class="card">
+            <p id="billingStatus" class="text-slate-500" role="status" aria-live="polite">Cargando servicios.</p>
+            <div class="mb-4 mt-4 grid grid-cols-1 gap-x-5 gap-y-4 sm:grid-cols-2 xl:grid-cols-4">
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">País
+                <select id="filterBillingCountry" class="control">
+                  <option value="">Todos</option>
+                  <option value="US">Estados Unidos</option>
+                  <option value="UK">Reino Unido</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Región
+                <select id="filterBillingRegion" class="control">
+                  <option value="">Todas</option>
+                  <option value="Texas" data-country="US">Texas</option>
+                  <option value="Florida" data-country="US">Florida</option>
+                  <option value="Georgia" data-country="US">Georgia</option>
+                  <option value="London" data-country="UK">Londres</option>
+                  <option value="Manchester" data-country="UK">Manchester</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Estado de pago
+                <select id="filterPayment" class="control">
+                  <option value="">Todos</option>
+                  <option value="pendiente">Pendiente</option>
+                  <option value="abonado">Abonado</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-col gap-1.5 text-sm font-semibold">Nombre o documento
+                <input id="filterBillingSearch" type="search" class="control" />
+              </label>
+            </div>
+            <div>
+              <table class="w-full border-collapse text-sm">
+                <thead>
+                  <tr>
+                    <th class="th">Cita</th>
+                    <th class="th">Estado</th>
+                    <th class="th">Nombre</th>
+                    <th class="th">Documento</th>
+                    <th class="th">Región</th>
+                    <th class="th">Servicio</th>
+                    <th class="th">Importe a facturar</th>
+                    <th class="th">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="billingRows"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="analisis" class="hidden">
+          <span class="eyebrow">Análisis</span>
+          <h1 class="my-3 text-3xl font-bold sm:text-4xl">Análisis de servicios</h1>
+          <p id="analysisStatus" class="text-slate-500" role="status" aria-live="polite">Cargando datos de la agenda.</p>
+
+          <div class="card mt-4">
+            <h2 class="mb-3 text-xl font-bold">Agenda</h2>
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              <div class="flex flex-col gap-1 rounded-xl border border-navy/10 px-4 py-3 transition-all duration-200 hover:border-teal/40"><span class="text-xs text-slate-500">Total de citas</span><strong id="agendaTotal" class="text-2xl">0</strong></div>
+              <div class="flex flex-col gap-1 rounded-xl border border-navy/10 px-4 py-3 transition-all duration-200 hover:border-teal/40"><span class="text-xs text-slate-500">Pendientes de gestionar</span><strong id="agendaPending" class="text-2xl">0</strong></div>
+              <div class="flex flex-col gap-1 rounded-xl border border-navy/10 px-4 py-3 transition-all duration-200 hover:border-teal/40"><span class="text-xs text-slate-500">Cumplidas</span><strong id="agendaDone" class="text-2xl">0</strong></div>
+              <div class="flex flex-col gap-1 rounded-xl border border-navy/10 px-4 py-3 transition-all duration-200 hover:border-teal/40"><span class="text-xs text-slate-500">Satisfacción media</span><strong id="kpiMean" class="text-2xl">N/D</strong></div>
+            </div>
+            <h3 class="mt-6 mb-3 text-lg font-bold">Estados de la agenda</h3>
+            <div id="analysisStates"></div>
+            <div class="chart-card mt-4">
+              <h3 class="mb-2 text-base font-bold">Estados de las consultas</h3>
+              <svg id="agendaStateDonut" class="chart-svg" viewBox="0 0 200 200" role="img" aria-label="Distribución por estado de la agenda"></svg>
+              <ul id="agendaStateLegend" class="chart-legend"></ul>
+            </div>
+          </div>
+
+          <div class="card mt-6">
+            <h2 class="mb-3 text-xl font-bold">Base de datos / encuesta</h2>
+            <form id="csvForm" class="flex flex-wrap items-center gap-3">
+              <input id="csvFile" type="file" accept=".csv,text/csv" class="control" required />
+              <button type="submit" class="btn-primary transition-all duration-200">Cargar base de datos / encuesta</button>
+            </form>
+            <p id="csvStatus" class="mt-3 text-slate-500" role="status" aria-live="polite">Sin archivo cargado.</p>
+            <div class="my-4 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              <div class="flex flex-col gap-1 rounded-xl border border-navy/10 px-4 py-3 transition-all duration-200 hover:border-teal/40"><span class="text-xs text-slate-500">Total procesado</span><strong id="csvTotal" class="text-2xl">0</strong></div>
+              <div class="flex flex-col gap-1 rounded-xl border border-navy/10 px-4 py-3 transition-all duration-200 hover:border-teal/40"><span class="text-xs text-slate-500">Válidos</span><strong id="csvValid" class="text-2xl">0</strong></div>
+              <div class="flex flex-col gap-1 rounded-xl border border-navy/10 px-4 py-3 transition-all duration-200 hover:border-teal/40"><span class="text-xs text-slate-500">Inválidos</span><strong id="csvInvalid" class="text-2xl">0</strong></div>
+              <div class="flex flex-col gap-1 rounded-xl border border-navy/10 px-4 py-3 transition-all duration-200 hover:border-teal/40"><span class="text-xs text-slate-500">Satisfacción media</span><strong id="csvMean" class="text-2xl">N/D</strong></div>
+            </div>
+            <div id="csvCharts" class="hidden">
+              <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                <div class="chart-card">
+                  <h3 class="mb-2 text-base font-bold">Satisfacción media</h3>
+                  <svg id="csvMeanGauge" class="chart-svg" viewBox="0 0 200 130" role="img" aria-label="Satisfacción media sobre 10"></svg>
+                </div>
+              </div>
+              <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+                <div class="chart-card">
+                  <h3 class="mb-2 text-base font-bold">Consultas por ubicación y estado</h3>
+                  <div id="csvLocationChart" class="chart-stack"></div>
+                  <ul id="csvLocationLegend" class="chart-legend"></ul>
+                </div>
+                <div class="chart-card">
+                  <h3 class="mb-2 text-base font-bold">Satisfacción media por día</h3>
+                  <svg id="csvTrend" class="chart-svg chart-trend" viewBox="0 0 600 240" role="img" aria-label="Satisfacción media por día"></svg>
+                  <p id="csvTrendEmpty" class="hidden text-center text-sm text-slate-500">Sin datos de satisfacción por día.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/staff/assets/dashboard.js"></script>
+  </body>
+</html>

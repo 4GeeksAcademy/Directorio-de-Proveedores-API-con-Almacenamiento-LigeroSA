@@ -59,6 +59,16 @@
         color: #0b1f3a;
       }
 
+      .form-shell input:not([type="checkbox"]):not([type="radio"]),
+      .form-shell select {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+      }
+
+      .form-shell fieldset {
+        gap: 0.75rem;
+      }
+
       .form-shell select option[disabled],
       .form-shell select option[value=""] {
         color: #4b5f7a;
@@ -89,10 +99,10 @@
     <header class="relative overflow-hidden text-white">
       <div class="absolute inset-0 bg-gradient-to-br from-[#07152B] via-hcNavy to-hcTeal/80" aria-hidden="true"></div>
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(215,236,255,0.22),transparent_40%),radial-gradient(circle_at_84%_14%,rgba(245,158,11,0.20),transparent_35%)]" aria-hidden="true"></div>
-      <nav class="relative z-10 mx-auto flex max-w-5xl items-center justify-between px-6 py-5" aria-label="Navegación principal">
-        <a href="index.html" class="font-display text-2xl">HealthCore</a>
+      <nav class="relative z-10 flex w-full items-center justify-between px-5 py-5 sm:px-10" aria-label="Navegación principal">
+        <a href="/" class="font-display text-2xl">HealthCore</a>
         <div class="flex items-center gap-3">
-          <a id="navBackHome" href="index.html" class="rounded-full border border-white/50 px-4 py-2 text-sm font-semibold hover:bg-white/10">Volver a inicio</a>
+          <a id="navBackHome" href="/" class="rounded-full border border-white/50 px-4 py-2 text-sm font-semibold hover:bg-white/10">Volver a inicio</a>
           <div class="inline-flex rounded-full border border-white/40 bg-white/10 p-1 text-xs font-semibold" aria-label="Cambiar idioma">
             <button type="button" data-lang-switch="es" class="rounded-full px-3 py-1 text-white transition hover:bg-white/15">ES</button>
             <button type="button" data-lang-switch="en" class="rounded-full px-3 py-1 text-white transition hover:bg-white/15">EN</button>
@@ -101,18 +111,20 @@
       </nav>
     </header>
 
-    <main class="relative overflow-hidden px-6 py-10">
+    <main class="relative overflow-hidden px-6 py-4">
       <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_8%_10%,rgba(215,236,255,0.12),transparent_40%),radial-gradient(circle_at_92%_86%,rgba(245,158,11,0.14),transparent_35%)]" aria-hidden="true"></div>
 
-      <section class="form-shell relative z-10 mx-auto max-w-5xl rounded-3xl border border-white/20 bg-white/10 p-6 shadow-soft backdrop-blur-sm sm:p-8">
-        <h1 id="formTitle" class="font-stackText text-3xl text-white sm:text-4xl">Formulario de registro</h1>
-        <p id="formIntro" class="mt-3 max-w-3xl text-hcSky">
+      <section class="form-shell relative z-10 mx-auto max-w-3xl rounded-3xl border border-white/20 bg-white/10 p-5 shadow-soft backdrop-blur-sm sm:p-6">
+        <h1 id="formTitle" class="font-stackText text-2xl text-white sm:text-3xl">Formulario de registro</h1>
+        <p id="formIntro" class="mt-2 max-w-3xl text-sm text-hcSky">
           Completa tus datos para que nuestro equipo coordine la atención adecuada. Solicitamos información clínica y administrativa esencial para acceso, seguimiento y cumplimiento normativo.
         </p>
 
         <div id="formAlert" class="mt-6 hidden rounded-xl border px-4 py-3 text-sm" role="alert" aria-live="polite"></div>
 
-        <form id="applicationForm" class="mt-8 grid gap-6" novalidate>
+        <nav id="formProgress" class="mt-4" aria-label="Progreso del formulario"></nav>
+
+        <form id="applicationForm" class="mt-5 grid gap-4" novalidate>
           <fieldset class="form-step grid gap-4" data-step-index="0">
             <legend id="legendPersonal" class="font-stackText text-lg font-semibold text-white">Datos personales</legend>
             <div class="grid gap-4 sm:grid-cols-2">
@@ -129,6 +141,18 @@
             </div>
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
+                <label for="identityDocument" class="mb-1 block text-sm font-medium text-hcSky">Documento de identidad *</label>
+                <input id="identityDocument" name="identityDocument" type="text" class="w-full rounded-xl border border-slate-300 px-4 py-3" aria-describedby="identityDocumentError" />
+                <p id="identityDocumentError" class="mt-1 min-h-[1.25rem] text-sm text-red-700"></p>
+              </div>
+              <div>
+                <label for="birthDate" class="mb-1 block text-sm font-medium text-hcSky">Fecha de nacimiento *</label>
+                <input id="birthDate" name="birthDate" type="date" class="w-full rounded-xl border border-slate-300 px-4 py-3" aria-describedby="birthDateError" />
+                <p id="birthDateError" class="mt-1 min-h-[1.25rem] text-sm text-red-700"></p>
+              </div>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
                 <label for="email" class="mb-1 block text-sm font-medium text-hcSky">Email *</label>
                 <input id="email" name="email" type="email" autocomplete="email" class="w-full rounded-xl border border-slate-300 px-4 py-3" aria-describedby="emailError" />
                 <p id="emailError" class="mt-1 min-h-[1.25rem] text-sm text-red-700"></p>
@@ -139,24 +163,17 @@
                 <p id="phoneError" class="mt-1 min-h-[1.25rem] text-sm text-red-700"></p>
               </div>
             </div>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label for="birthDate" class="mb-1 block text-sm font-medium text-hcSky">Fecha de nacimiento *</label>
-                <input id="birthDate" name="birthDate" type="date" class="w-full rounded-xl border border-slate-300 px-4 py-3" aria-describedby="birthDateError" />
-                <p id="birthDateError" class="mt-1 min-h-[1.25rem] text-sm text-red-700"></p>
-              </div>
-              <div>
-                <label for="preferredLanguage" class="mb-1 block text-sm font-medium text-hcSky">Idioma preferido *</label>
-                <select id="preferredLanguage" name="preferredLanguage" class="w-full rounded-xl border border-slate-300 px-4 py-3" aria-describedby="preferredLanguageError">
-                  <option value="">Selecciona una opción</option>
-                  <option value="en">Inglés</option>
-                  <option value="es">Español</option>
-                </select>
-                <p id="preferredLanguageError" class="mt-1 min-h-[1.25rem] text-sm text-red-700"></p>
-              </div>
+            <div>
+              <label for="preferredLanguage" class="mb-1 block text-sm font-medium text-hcSky">Idioma preferido *</label>
+              <select id="preferredLanguage" name="preferredLanguage" class="w-full rounded-xl border border-slate-300 px-4 py-3" aria-describedby="preferredLanguageError">
+                <option value="">Selecciona una opción</option>
+                <option value="en">Inglés</option>
+                <option value="es">Español</option>
+              </select>
+              <p id="preferredLanguageError" class="mt-1 min-h-[1.25rem] text-sm text-red-700"></p>
             </div>
             <div class="flex justify-end pt-2">
-              <button id="step0Next" type="button" data-step-next="0" class="rounded-full bg-hcAmber px-5 py-2.5 text-sm font-semibold text-hcNavy transition hover:-translate-y-0.5 hover:bg-amber-300">Siguiente</button>
+              <button id="step0Next" type="button" data-step-next="0" class="rounded-full bg-hcAmber px-5 py-2 text-sm font-semibold text-hcNavy transition hover:-translate-y-0.5 hover:bg-amber-300">Siguiente</button>
             </div>
           </fieldset>
 
@@ -176,11 +193,11 @@
                 <label for="clinicRegion" class="mb-1 block text-sm font-medium text-hcSky">Región / sede preferida *</label>
                 <select id="clinicRegion" name="clinicRegion" class="w-full rounded-xl border border-slate-300 px-4 py-3" aria-describedby="clinicRegionError">
                   <option value="">Selecciona una región</option>
-                  <option value="Texas">Texas</option>
-                  <option value="Florida">Florida</option>
-                  <option value="Georgia">Georgia</option>
-                  <option value="London">Londres</option>
-                  <option value="Manchester">Manchester</option>
+                  <option value="Texas" data-country="US">Texas</option>
+                  <option value="Florida" data-country="US">Florida</option>
+                  <option value="Georgia" data-country="US">Georgia</option>
+                  <option value="London" data-country="UK">Londres</option>
+                  <option value="Manchester" data-country="UK">Manchester</option>
                 </select>
                 <p id="clinicRegionError" class="mt-1 min-h-[1.25rem] text-sm text-red-700"></p>
               </div>
@@ -192,8 +209,6 @@
                   <option value="">Selecciona un servicio</option>
                   <option value="primary-care">Atención primaria</option>
                   <option value="specialist">Consulta con especialista</option>
-                  <option value="chronic-care">Gestión de enfermedad crónica</option>
-                  <option value="preventive">Programa de salud preventiva</option>
                 </select>
                 <p id="serviceTypeError" class="mt-1 min-h-[1.25rem] text-sm text-red-700"></p>
               </div>
@@ -205,7 +220,7 @@
             </div>
             <div class="flex items-center justify-between pt-2">
               <button id="step1Prev" type="button" data-step-prev="1" class="rounded-full border border-white/40 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10">Atrás</button>
-              <button id="step1Next" type="button" data-step-next="1" class="rounded-full bg-hcAmber px-5 py-2.5 text-sm font-semibold text-hcNavy transition hover:-translate-y-0.5 hover:bg-amber-300">Siguiente</button>
+              <button id="step1Next" type="button" data-step-next="1" class="rounded-full bg-hcAmber px-5 py-2 text-sm font-semibold text-hcNavy transition hover:-translate-y-0.5 hover:bg-amber-300">Siguiente</button>
             </div>
           </fieldset>
 
@@ -224,12 +239,12 @@
                 <p id="payerTypeError" class="mt-1 min-h-[1.25rem] text-sm text-red-700"></p>
               </div>
               <div>
-                <label for="insuranceProvider" class="mb-1 block text-sm font-medium text-hcSky">Aseguradora (si aplica) *</label>
+                <label for="insuranceProvider" class="mb-1 block text-sm font-medium text-hcSky">Aseguradora (si aplica)</label>
                 <input id="insuranceProvider" name="insuranceProvider" type="text" class="w-full rounded-xl border border-slate-300 px-4 py-3" aria-describedby="insuranceProviderError" />
                 <p id="insuranceProviderError" class="mt-1 min-h-[1.25rem] text-sm text-red-700"></p>
               </div>
               <div>
-                <label for="policyNumber" class="mb-1 block text-sm font-medium text-hcSky">Número de póliza (si aplica) *</label>
+                <label for="policyNumber" class="mb-1 block text-sm font-medium text-hcSky">Número de póliza (si aplica)</label>
                 <input id="policyNumber" name="policyNumber" type="text" class="w-full rounded-xl border border-slate-300 px-4 py-3" aria-describedby="policyNumberError" />
                 <p id="policyNumberError" class="mt-1 min-h-[1.25rem] text-sm text-red-700"></p>
               </div>
@@ -237,7 +252,7 @@
             <p id="coverageHint" class="text-sm text-hcSky">Para solicitudes en US con seguro, aseguradora y póliza son obligatorios.</p>
             <div class="flex items-center justify-between pt-2">
               <button id="step2Prev" type="button" data-step-prev="2" class="rounded-full border border-white/40 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10">Atrás</button>
-              <button id="step2Next" type="button" data-step-next="2" class="rounded-full bg-hcAmber px-5 py-2.5 text-sm font-semibold text-hcNavy transition hover:-translate-y-0.5 hover:bg-amber-300">Siguiente</button>
+              <button id="step2Next" type="button" data-step-next="2" class="rounded-full bg-hcAmber px-5 py-2 text-sm font-semibold text-hcNavy transition hover:-translate-y-0.5 hover:bg-amber-300">Siguiente</button>
             </div>
           </fieldset>
 
@@ -291,11 +306,13 @@
             <p id="requiredHint" class="text-sm text-hcSky">Todos los campos marcados con * son obligatorios.</p>
           </div>
         </form>
+
+        <button id="newApplicationButton" type="button" class="hidden mt-6 rounded-full bg-hcAmber px-6 py-3 font-semibold text-hcNavy transition hover:-translate-y-0.5 hover:bg-amber-300">Ingresar una nueva solicitud</button>
       </section>
     </main>
 
     <footer class="border-t border-white/10 bg-[#071426]">
-      <div id="footerCopy" class="mx-auto max-w-5xl px-6 py-5 text-sm text-hcSky">© 2026 HealthCore. Registro seguro para atención ambulatoria.</div>
+      <div id="footerCopy" class="mx-auto max-w-3xl px-6 py-5 text-sm text-hcSky">© 2026 HealthCore. Registro seguro para atención ambulatoria.</div>
     </footer>
 
     <script>
@@ -325,6 +342,7 @@
           emailLabel: "Email *",
           phoneLabel: "Teléfono *",
           birthDateLabel: "Fecha de nacimiento *",
+          identityDocumentLabel: "Documento de identidad *",
           preferredLanguageLabel: "Idioma preferido *",
           preferredLanguagePlaceholder: "Selecciona una opción",
           preferredLanguageEn: "Inglés",
@@ -340,16 +358,14 @@
           serviceTypePlaceholder: "Selecciona un servicio",
           serviceTypePrimary: "Atención primaria",
           serviceTypeSpecialist: "Consulta con especialista",
-          serviceTypeChronic: "Gestión de enfermedad crónica",
-          serviceTypePreventive: "Programa de salud preventiva",
           preferredDateLabel: "Fecha preferida de cita *",
           payerTypeLabel: "Tipo de cobertura *",
           payerTypePlaceholder: "Selecciona",
           payerTypePrivate: "Seguro privado",
           payerTypeGovernment: "Medicare / Medicaid",
           payerTypeSelfPay: "Pago directo",
-          insuranceProviderLabel: "Aseguradora (si aplica) *",
-          policyNumberLabel: "Número de póliza (si aplica) *",
+          insuranceProviderLabel: "Aseguradora (si aplica)",
+          policyNumberLabel: "Número de póliza (si aplica)",
           healthNotesLabel: "Condiciones crónicas o antecedentes relevantes *",
           healthNotesPlaceholder: "Describe medicación actual, diagnósticos o escribe 'No aplica'.",
           contactMethodLabel: "Canal preferido de contacto *",
@@ -388,6 +404,7 @@
           emailLabel: "Email *",
           phoneLabel: "Phone *",
           birthDateLabel: "Date of birth *",
+          identityDocumentLabel: "Identity document *",
           preferredLanguageLabel: "Preferred language *",
           preferredLanguagePlaceholder: "Select an option",
           preferredLanguageEn: "English",
@@ -403,16 +420,14 @@
           serviceTypePlaceholder: "Select a service",
           serviceTypePrimary: "Primary care",
           serviceTypeSpecialist: "Specialist consultation",
-          serviceTypeChronic: "Chronic care management",
-          serviceTypePreventive: "Preventive health program",
           preferredDateLabel: "Preferred appointment date *",
           payerTypeLabel: "Coverage type *",
           payerTypePlaceholder: "Select",
           payerTypePrivate: "Private insurance",
           payerTypeGovernment: "Medicare / Medicaid",
           payerTypeSelfPay: "Self-pay",
-          insuranceProviderLabel: "Insurance provider (if applicable) *",
-          policyNumberLabel: "Policy number (if applicable) *",
+          insuranceProviderLabel: "Insurance provider (if applicable)",
+          policyNumberLabel: "Policy number (if applicable)",
           healthNotesLabel: "Chronic conditions or relevant history *",
           healthNotesPlaceholder: "Describe current medication, diagnoses, or type 'Not applicable'.",
           contactMethodLabel: "Preferred contact channel *",
@@ -474,6 +489,7 @@
         setText('label[for="email"]', t.emailLabel);
         setText('label[for="phone"]', t.phoneLabel);
         setText('label[for="birthDate"]', t.birthDateLabel);
+        setText('label[for="identityDocument"]', t.identityDocumentLabel);
         setText('label[for="preferredLanguage"]', t.preferredLanguageLabel);
         setText('#preferredLanguage option[value=""]', t.preferredLanguagePlaceholder);
         setText('#preferredLanguage option[value="en"]', t.preferredLanguageEn);
@@ -492,8 +508,6 @@
         setText('#serviceType option[value=""]', t.serviceTypePlaceholder);
         setText('#serviceType option[value="primary-care"]', t.serviceTypePrimary);
         setText('#serviceType option[value="specialist"]', t.serviceTypeSpecialist);
-        setText('#serviceType option[value="chronic-care"]', t.serviceTypeChronic);
-        setText('#serviceType option[value="preventive"]', t.serviceTypePreventive);
 
         setText('label[for="preferredDate"]', t.preferredDateLabel);
         setText('label[for="payerType"]', t.payerTypeLabel);
@@ -545,9 +559,24 @@
         return browserLanguage.startsWith('en') ? 'en' : 'es';
       }
 
+      function filterRegionsByCountry() {
+        const country = document.getElementById('country').value;
+        const region = document.getElementById('clinicRegion');
+        Array.from(region.options).forEach((option) => {
+          if (!option.value) return;
+          const available = option.dataset.country === country;
+          option.hidden = !available;
+          option.disabled = !available;
+        });
+        if (region.selectedOptions[0]?.disabled) region.value = '';
+      }
+
+      document.getElementById('country').addEventListener('change', filterRegionsByCountry);
+      filterRegionsByCountry();
+
       applyApplicationLanguage(getInitialLanguage());
     </script>
 
-    <script src="validation.js?v=20260513-1" defer></script>
+    <script src="validation.js?v=20261111-3" defer></script>
   </body>
 </html>

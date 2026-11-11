@@ -50,6 +50,10 @@
       .hero-title-shadow {
         text-shadow: 0 3px 18px rgba(0, 0, 0, 0.55), 0 1px 2px rgba(0, 0, 0, 0.6);
       }
+      /* Tailwind preflight sets img max-width:100%, which misplaces Leaflet tiles and markers */
+      .leaflet-container img {
+        max-width: none !important;
+      }
     </style>
     <script type="application/ld+json">
       {
@@ -114,6 +118,9 @@
               <button type="button" data-lang-switch="en" class="rounded-full px-3 py-1 text-white transition hover:bg-white/15">EN</button>
             </div>
           </li>
+          <li>
+            <a id="navStaffLogin" href="/staff/login" class="inline-flex items-center rounded-full border border-white/40 bg-white/10 px-4 py-2 text-xs font-semibold text-white transition hover:bg-white/15">Login Staff</a>
+          </li>
         </ul>
       </nav>
 
@@ -127,7 +134,7 @@
             Unimos atención primaria, especialidades y prevención en una red de 12 clínicas. Reducimos esperas, mejoramos continuidad asistencial y acompañamos cada etapa del cuidado.
           </p>
           <div class="mt-8 flex flex-wrap gap-4">
-            <a id="heroCtaPrimary" href="application.html" class="rounded-full bg-green-600 px-6 py-3 font-semibold text-white shadow-2xl shadow-green-700/50 border border-white transition hover:-translate-y-0.5 hover:bg-green-700">Agendar consulta</a>
+            <a id="heroCtaPrimary" href="application.html" class="rounded-full bg-hcAmber px-6 py-3 font-semibold text-hcNavy shadow-soft transition hover:-translate-y-0.5">Agendar consulta</a>
           </div>
         </div>
       </section>
@@ -141,58 +148,25 @@
         <div class="absolute -right-16 bottom-8 h-52 w-52 rounded-full bg-hcAmber/20 blur-3xl" aria-hidden="true"></div>
 
         <div class="relative z-10 mx-auto w-full max-w-6xl px-6 lg:px-10">
-          <p id="benefitsPill" class="inline-flex items-center rounded-full bg-gradient-to-r from-hcTeal/80 via-hcAmber/80 to-hcSky/80 px-5 py-1.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg">Beneficios</p>
-          <h2 id="benefitsTitle" class="mt-4 max-w-3xl font-stackText text-4xl leading-tight text-white sm:text-5xl drop-shadow-xl">Beneficios clave de nuestra experiencia sanitaria</h2>
+          <p id="benefitsPill" class="inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-wider text-hcSky">Beneficios</p>
+          <h2 id="benefitsTitle" class="mt-4 max-w-3xl font-stackText text-3xl leading-tight text-white sm:text-4xl">Beneficios clave de nuestra experiencia sanitaria</h2>
 
-          <div class="mt-14 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
-            <article class="group relative flex flex-col items-center rounded-3xl border-2 border-hcTeal/60 bg-gradient-to-br from-white/10 via-hcTeal/10 to-hcSky/10 p-8 shadow-2xl transition-transform hover:scale-105 hover:border-hcAmber/80 hover:shadow-yellow-400/30">
-              <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10">
-                <!-- Icono de calendario para "Citas en el día" -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <rect x="3" y="5" width="18" height="16" rx="2" stroke-width="2" stroke="currentColor" fill="none"/>
-                  <path d="M16 3v4M8 3v4M3 9h18" stroke-width="2" stroke="currentColor" fill="none"/>
-                  <circle cx="12" cy="15" r="2" fill="currentColor"/>
-                </svg>
-              </div>
-              <h3 id="benefit1Title" class="font-stackText text-lg font-bold text-white drop-shadow">Citas en el día</h3>
-              <p id="benefit1Text" class="mt-2 text-sm text-hcSky text-center">Atención rápida para resolver necesidades de salud sin esperas prolongadas.</p>
+          <div class="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            <article class="rounded-2xl border border-white/20 bg-white/10 p-6 shadow-soft backdrop-blur-sm">
+              <h3 id="benefit1Title" class="font-stackText text-lg font-semibold text-white">Citas en el día</h3>
+              <p id="benefit1Text" class="mt-2 text-sm text-hcSky">Atención rápida para resolver necesidades de salud sin esperas prolongadas.</p>
             </article>
-            <article class="group relative flex flex-col items-center rounded-3xl border-2 border-hcAmber/60 bg-gradient-to-br from-white/10 via-hcAmber/10 to-hcSky/10 p-8 shadow-2xl transition-transform hover:scale-105 hover:border-hcTeal/80 hover:shadow-cyan-400/30">
-              <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10">
-                <!-- Icono de reloj para "Amplios horarios" -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/>
-                  <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <h3 id="benefit2Title" class="font-stackText text-lg font-bold text-white drop-shadow">Amplios horarios</h3>
-              <p id="benefit2Text" class="mt-2 text-sm text-hcSky text-center">Disponibilidad extendida para adaptarnos a tu rutina diaria.</p>
+            <article class="rounded-2xl border border-white/20 bg-white/10 p-6 shadow-soft backdrop-blur-sm">
+              <h3 id="benefit2Title" class="font-stackText text-lg font-semibold text-white">Amplios horarios</h3>
+              <p id="benefit2Text" class="mt-2 text-sm text-hcSky">Disponibilidad extendida para adaptarnos a tu rutina diaria.</p>
             </article>
-            <article class="group relative flex flex-col items-center rounded-3xl border-2 border-hcSky/60 bg-gradient-to-br from-white/10 via-hcSky/10 to-hcAmber/10 p-8 shadow-2xl transition-transform hover:scale-105 hover:border-hcAmber/80 hover:shadow-yellow-400/30">
-              <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10">
-                <!-- Icono de globo de chat para "Personal bilingüe" -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="2" fill="none"/>
-                  <circle cx="9" cy="10" r="1" fill="currentColor"/>
-                  <circle cx="13" cy="10" r="1" fill="currentColor"/>
-                  <circle cx="17" cy="10" r="1" fill="currentColor"/>
-                </svg>
-              </div>
-              <h3 id="benefit3Title" class="font-stackText text-lg font-bold text-white drop-shadow">Personal bilingüe</h3>
-              <p id="benefit3Text" class="mt-2 text-sm text-hcSky text-center">Equipo capacitado para atenderte en más de un idioma con claridad y cercanía.</p>
+            <article class="rounded-2xl border border-white/20 bg-white/10 p-6 shadow-soft backdrop-blur-sm">
+              <h3 id="benefit3Title" class="font-stackText text-lg font-semibold text-white">Personal bilingüe</h3>
+              <p id="benefit3Text" class="mt-2 text-sm text-hcSky">Equipo capacitado para atenderte en más de un idioma con claridad y cercanía.</p>
             </article>
-            <article class="group relative flex flex-col items-center rounded-3xl border-2 border-hcAmber/60 bg-gradient-to-br from-white/10 via-hcAmber/10 to-hcTeal/10 p-8 shadow-2xl transition-transform hover:scale-105 hover:border-hcTeal/80 hover:shadow-cyan-400/30">
-              <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10">
-                <!-- Icono de libro para "Formación médica continua" -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="currentColor" stroke-width="2" fill="none"/>
-                  <path d="M20 17V5a2 2 0 00-2-2H6.5A2.5 2.5 0 004 5.5v14" stroke="currentColor" stroke-width="2" fill="none"/>
-                  <path d="M16 7h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                  <path d="M16 11h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </div>
-              <h3 id="benefit4Title" class="font-stackText text-lg font-bold text-white drop-shadow">Formación médica continua</h3>
-              <p id="benefit4Text" class="mt-2 text-sm text-hcSky text-center">Profesionales en actualización constante para ofrecer atención basada en evidencia.</p>
+            <article class="rounded-2xl border border-white/20 bg-white/10 p-6 shadow-soft backdrop-blur-sm">
+              <h3 id="benefit4Title" class="font-stackText text-lg font-semibold text-white">Formación médica continua</h3>
+              <p id="benefit4Text" class="mt-2 text-sm text-hcSky">Profesionales en actualización constante para ofrecer atención basada en evidencia.</p>
             </article>
           </div>
         </div>
@@ -206,9 +180,9 @@
         <div class="relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col px-6 lg:px-10">
           <div class="max-w-3xl">
             <p id="locationsPill" class="inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-wider text-hcSky">Cobertura</p>
-            <h2 id="locationsTitle" class="mt-4 max-w-3xl font-stackText text-4xl leading-tight text-white sm:text-5xl drop-shadow-xl">¿Dónde se ubican nuestras clínicas?</h2>
+            <h2 id="locationsTitle" class="mt-4 max-w-3xl font-stackText text-3xl leading-tight text-white sm:text-4xl">¿Dónde se ubican nuestras clínicas?</h2>
             <p id="locationsText" class="mt-4 text-hcSky">
-              Contamos con 12 clínicas ambulatorias distribuidas en EE. UU. y UK. 
+              Contamos con presencia en EE. UU. y UK. Organiza tu búsqueda por estado o ciudad y ubica cada sede en su mapa.
             </p>
           </div>
 
@@ -295,7 +269,7 @@
               </div>
             </article>
 
-            <div id="map-all" class="h-[22rem] w-full overflow-hidden rounded-3xl border border-white/25 shadow-soft md:h-[26rem] lg:col-span-7 lg:h-full" aria-label="Mapa unificado de clínicas"></div>
+            <div id="map-all" class="min-h-[22rem] w-full overflow-hidden rounded-3xl border border-white/25 shadow-soft md:min-h-[26rem] lg:col-span-7 lg:min-h-[28rem]" aria-label="Mapa unificado de clínicas"></div>
           </div>
         </div>
       </section>
@@ -308,33 +282,16 @@
         <div class="relative z-10 mx-auto grid w-full max-w-6xl items-start gap-8 px-6 lg:grid-cols-2 lg:px-10">
           <div>
             <p id="contactPill" class="inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-wider text-hcSky">Contacto</p>
-            <h2 id="contactTitle" class="mt-4 max-w-3xl font-stackText text-4xl leading-tight text-white sm:text-5xl drop-shadow-xl">Hablemos de tu atención</h2>
+            <h2 id="contactTitle" class="mt-4 max-w-xl font-stackText text-3xl leading-tight sm:text-4xl">Hablemos de tu atención</h2>
             <p id="contactText" class="mt-3 text-hcSky max-w-lg">
               Si quieres registrarte para una primera consulta o actualizar tus datos, completa la aplicación y nuestro equipo de acceso se pondrá en contacto.
             </p>
-            <div class="mt-6 max-w-lg rounded-2xl border border-white/20 bg-white/10 p-5 shadow-soft backdrop-blur-sm">
-              <p id="directContactLabel" class="text-sm text-hcSky">Contacto directo</p>
-              <p class="mt-2 text-lg font-semibold">+1 (512) 555-0148</p>
-              <p class="text-lg font-semibold">contact@healthcore.example.com</p>
-            </div>
           </div>
           <div class="rounded-2xl border border-white/20 bg-white/10 p-6 shadow-soft backdrop-blur-sm">
-            <form class="mt-6 grid gap-3" aria-label="Formulario de contacto">
-              <h3 id="contactFormTitle" class="text-base font-semibold text-white">Escríbenos</h3>
-              <div>
-                <label id="contactNameLabel" for="contactName" class="mb-1 block text-sm text-hcSky">Nombre</label>
-                <input id="contactName" name="name" type="text" autocomplete="name" required class="w-full rounded-xl border border-white/35 bg-white/10 px-4 py-2.5 text-sm text-white placeholder:text-hcSky/80 focus:outline-none focus:ring-2 focus:ring-hcSky/70" placeholder="Tu nombre" />
-              </div>
-              <div>
-                <label id="contactEmailLabel" for="contactEmail" class="mb-1 block text-sm text-hcSky">Email</label>
-                <input id="contactEmail" name="email" type="email" autocomplete="email" required class="w-full rounded-xl border border-white/35 bg-white/10 px-4 py-2.5 text-sm text-white placeholder:text-hcSky/80 focus:outline-none focus:ring-2 focus:ring-hcSky/70" placeholder="tu@email.com" />
-              </div>
-              <div>
-                <label id="contactMessageLabel" for="contactMessage" class="mb-1 block text-sm text-hcSky">Mensaje</label>
-                <textarea id="contactMessage" name="message" rows="3" required class="w-full rounded-xl border border-white/35 bg-white/10 px-4 py-2.5 text-sm text-white placeholder:text-hcSky/80 focus:outline-none focus:ring-2 focus:ring-hcSky/70" placeholder="¿Cómo podemos ayudarte?"></textarea>
-              </div>
-              <button id="contactSubmitButton" type="submit" class="w-fit rounded-full bg-green-600 px-5 py-2.5 font-semibold text-white shadow-2xl shadow-green-700/50 border border-white transition hover:-translate-y-0.5 hover:bg-green-700">Enviar</button>
-            </form>
+            <p id="directContactLabel" class="text-sm text-hcSky">Contacto directo</p>
+            <p class="mt-2 text-lg font-semibold">+1 (512) 555-0148</p>
+            <p class="text-lg font-semibold">contact@healthcore.example.com</p>
+            <a id="contactCta" href="application.html" class="mt-6 inline-flex rounded-full bg-hcAmber px-5 py-3 font-semibold text-hcNavy transition hover:-translate-y-0.5 hover:bg-amber-300">Ir al formulario de aplicación</a>
           </div>
         </div>
       </section>
@@ -392,14 +349,7 @@
           contactText:
             "Si quieres registrarte para una primera consulta o actualizar tus datos, completa la aplicación y nuestro equipo de acceso se pondrá en contacto.",
           directContactLabel: "Contacto directo",
-          contactFormTitle: "Escríbenos",
-          contactNameLabel: "Nombre",
-          contactNamePlaceholder: "Tu nombre",
-          contactEmailLabel: "Email",
-          contactEmailPlaceholder: "tu@email.com",
-          contactMessageLabel: "Mensaje",
-          contactMessagePlaceholder: "¿Cómo podemos ayudarte?",
-          contactSubmitButton: "Enviar",
+          contactCta: "Ir al formulario de aplicación",
           footerCopy: "© 2026 HealthCore. Atención ambulatoria con enfoque humano y operacional.",
           footerCities: "Austin, Texas | Londres y Manchester",
           mapAria: "Mapa unificado de clínicas"
@@ -442,14 +392,7 @@
           contactText:
             "If you want to register for a first appointment or update your details, complete the application and our access team will contact you.",
           directContactLabel: "Direct contact",
-          contactFormTitle: "Send us a message",
-          contactNameLabel: "Name",
-          contactNamePlaceholder: "Your name",
-          contactEmailLabel: "Email",
-          contactEmailPlaceholder: "you@email.com",
-          contactMessageLabel: "Message",
-          contactMessagePlaceholder: "How can we help you?",
-          contactSubmitButton: "Send",
+          contactCta: "Go to application form",
           footerCopy: "© 2026 HealthCore. Outpatient care with a human and operational focus.",
           footerCities: "Austin, Texas | London and Manchester",
           mapAria: "Unified clinic map"
@@ -509,22 +452,9 @@
         setText('contactTitle', t.contactTitle);
         setText('contactText', t.contactText);
         setText('directContactLabel', t.directContactLabel);
-        setText('contactFormTitle', t.contactFormTitle);
-        setText('contactNameLabel', t.contactNameLabel);
-        setText('contactEmailLabel', t.contactEmailLabel);
-        setText('contactMessageLabel', t.contactMessageLabel);
-        setText('contactSubmitButton', t.contactSubmitButton);
+        setText('contactCta', t.contactCta);
         setText('footerCopy', t.footerCopy);
         setText('footerCities', t.footerCities);
-
-        const contactNameInput = document.getElementById('contactName');
-        if (contactNameInput) contactNameInput.setAttribute('placeholder', t.contactNamePlaceholder);
-
-        const contactEmailInput = document.getElementById('contactEmail');
-        if (contactEmailInput) contactEmailInput.setAttribute('placeholder', t.contactEmailPlaceholder);
-
-        const contactMessageInput = document.getElementById('contactMessage');
-        if (contactMessageInput) contactMessageInput.setAttribute('placeholder', t.contactMessagePlaceholder);
 
         const mapElement = document.getElementById('map-all');
         if (mapElement) mapElement.setAttribute('aria-label', t.mapAria);
@@ -579,9 +509,10 @@
 
         const map = L.map(elementId);
 
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+          subdomains: "abcd",
           maxZoom: 19,
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         }).addTo(map);
 
         const markers = [];
@@ -593,7 +524,10 @@
         });
 
         const group = L.featureGroup(markers);
-        map.fitBounds(group.getBounds().pad(0.2));
+        map.fitBounds(group.getBounds().pad(0.2), { maxZoom: 6 });
+        requestAnimationFrame(() => map.invalidateSize());
+        window.addEventListener("load", () => map.invalidateSize());
+        window.addEventListener("resize", () => map.invalidateSize());
       };
 
       const setupAccordion = () => {

@@ -1,8 +1,0 @@
-{
-  "/_global-error/page": "/_global-error",
-  "/_not-found/page": "/_not-found",
-  "/candidates/[id]/edit/page": "/candidates/[id]/edit",
-  "/candidates/[id]/page": "/candidates/[id]",
-  "/candidates/new/page": "/candidates/new",
-  "/page": "/"
-}

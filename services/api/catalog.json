@@ -1,0 +1,26 @@
+{
+  "specialties": {
+    "primary-care": {
+      "durationMinutes": 20,
+      "fee": {"US": 15, "UK": 15}
+    },
+    "specialist": {
+      "durationMinutes": 40,
+      "fee": {"US": 30, "UK": 30}
+    }
+  },
+  "providers": [
+    {
+      "id": "PRV-001",
+      "name": "Dr. James Carter",
+      "regions": ["Texas", "Florida", "Georgia"],
+      "specialties": ["primary-care", "specialist"]
+    },
+    {
+      "id": "PRV-002",
+      "name": "Dra. Sarah Mitchell",
+      "regions": ["London", "Manchester"],
+      "specialties": ["primary-care", "specialist"]
+    }
+  ]
+}
