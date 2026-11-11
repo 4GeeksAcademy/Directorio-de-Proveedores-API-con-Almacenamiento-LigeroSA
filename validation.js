@@ -1,5 +1,6 @@
 const form = document.getElementById("applicationForm");
 const alertBox = document.getElementById("formAlert");
+const APPLICATIONS_API = "/api/applications";
 
 const MESSAGES = {
   es: {
@@ -22,10 +23,16 @@ const MESSAGES = {
     healthNotesInvalid: "Describe antecedentes de salud relevantes o escribe 'No aplica'.",
     contactMethodRequired: "Selecciona el canal preferido de contacto.",
     bestTimeRequired: "Selecciona un horario de contacto.",
+    identityDocumentInvalid: "Ingresa un documento valido (5-20 caracteres: letras, numeros, puntos o guiones).",
+    providerRequired: "Selecciona un prestador medico.",
+    appointmentAtRequired: "Selecciona fecha y hora de la cita.",
+    appointmentAtPast: "La cita debe ser en una fecha y hora futuras.",
     consentPrivacyRequired: "Debes aceptar el tratamiento de datos para continuar.",
     consentRemindersRequired: "Debes aceptar recordatorios para completar la aplicacion.",
     formInvalid: "Revisa el formulario: hay campos incompletos o con formato invalido.",
-    formSuccess: "Aplicacion enviada correctamente. Nuestro equipo te contactara pronto."
+    formSuccess: "Aplicacion enviada correctamente. Nuestro equipo te contactara pronto.",
+    formSendError: "No se pudo enviar la solicitud. Intentalo de nuevo en unos minutos.",
+    newApplication: "Ingresar una nueva solicitud"
   },
   en: {
     firstNameInvalid: "Enter a valid first name (minimum 2 characters).",
@@ -47,10 +54,16 @@ const MESSAGES = {
     healthNotesInvalid: "Describe relevant health history or type 'Not applicable'.",
     contactMethodRequired: "Select the preferred contact method.",
     bestTimeRequired: "Select a preferred contact time.",
+    identityDocumentInvalid: "Enter a valid identity document (5-20 characters: letters, numbers, dots, or hyphens).",
+    providerRequired: "Select a medical provider.",
+    appointmentAtRequired: "Select the appointment date and time.",
+    appointmentAtPast: "The appointment must be in the future.",
     consentPrivacyRequired: "You must accept data processing to continue.",
     consentRemindersRequired: "You must accept reminders to complete the application.",
     formInvalid: "Review the form: there are incomplete or invalid fields.",
-    formSuccess: "Application submitted successfully. Our team will contact you soon."
+    formSuccess: "Application submitted successfully. Our team will contact you soon.",
+    formSendError: "The request could not be sent. Please try again in a few minutes.",
+    newApplication: "Submit a new request"
   }
 };
 
@@ -63,9 +76,17 @@ function t(key) {
   return MESSAGES[lang][key] || MESSAGES.es[key] || "";
 }
 
+const progressNav = document.getElementById("formProgress");
+const newApplicationButton = document.getElementById("newApplicationButton");
+const PROGRESS_PREFIX = { es: "Paso", en: "Step" };
+const STEP_LABELS = {
+  es: ["Datos personales", "Acceso y atención", "Cobertura y facturación", "Seguimiento y cumplimiento"],
+  en: ["Personal details", "Access and care", "Coverage and billing", "Follow-up and compliance"]
+};
+
 if (form) {
   const stepFieldGroups = [
-    ["firstName", "lastName", "email", "phone", "birthDate", "preferredLanguage"],
+    ["firstName", "lastName", "email", "phone", "birthDate", "identityDocument", "preferredLanguage"],
     ["country", "clinicRegion", "serviceType", "preferredDate"],
     ["payerType", "insuranceProvider", "policyNumber"],
     ["healthNotes", "contactMethod", "bestTime", "consentPrivacy", "consentReminders"]
@@ -83,6 +104,7 @@ if (form) {
     "email",
     "phone",
     "birthDate",
+    "identityDocument",
     "preferredLanguage",
     "country",
     "clinicRegion",
@@ -121,6 +143,10 @@ if (form) {
       const age = getAge(date, today);
       return age >= 0 ? "" : t("birthDateInvalid");
     },
+    identityDocument: (value) =>
+      /^[A-Za-z0-9.-]{5,20}$/.test(value.trim())
+        ? ""
+        : t("identityDocumentInvalid"),
     preferredLanguage: (value) =>
       value ? "" : t("preferredLanguageRequired"),
     country: (value) => (value ? "" : t("countryRequired")),
@@ -208,7 +234,7 @@ if (form) {
     });
   });
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const errors = fields
@@ -225,14 +251,47 @@ if (form) {
       return;
     }
 
+    const payload = Object.fromEntries(
+      fields
+        .filter((fieldName) => !fieldName.startsWith("consent"))
+        .map((fieldName) => [fieldName, document.getElementById(fieldName).value])
+    );
+
+    try {
+      const response = await fetch(APPLICATIONS_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    } catch {
+      showAlert("error", t("formSendError"));
+      return;
+    }
+
     showAlert(
       "success",
       t("formSuccess")
     );
     form.reset();
+    document.getElementById("country").dispatchEvent(new Event("change"));
 
     fields.forEach((fieldName) => clearError(fieldName));
     showStep(0);
+    form.classList.add("hidden");
+    if (progressNav) progressNav.classList.add("hidden");
+    newApplicationButton.textContent = t("newApplication");
+    newApplicationButton.classList.remove("hidden");
+    newApplicationButton.focus();
+  });
+
+  newApplicationButton.addEventListener("click", () => {
+    newApplicationButton.classList.add("hidden");
+    form.classList.remove("hidden");
+    if (progressNav) progressNav.classList.remove("hidden");
+    alertBox.classList.add("hidden");
+    showStep(0);
+    document.getElementById("formTitle").scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
   function isFieldValid(fieldName) {
@@ -285,6 +344,37 @@ if (form) {
     return { valid: true, firstInvalid: "", message: "" };
   }
 
+  function renderProgress() {
+    if (!progressNav) return;
+    const lang = getCurrentLanguage();
+    const labels = STEP_LABELS[lang];
+    const heading = document.createElement("p");
+    heading.className = "text-xs text-hcSky";
+    heading.textContent = `${PROGRESS_PREFIX[lang]} ${currentStep + 1} / ${labels.length}: ${labels[currentStep]}`;
+    const track = document.createElement("div");
+    track.className = "mt-1 h-1.5 w-full overflow-hidden rounded-full bg-white/20";
+    track.setAttribute("role", "progressbar");
+    track.setAttribute("aria-valuemin", "1");
+    track.setAttribute("aria-valuemax", String(labels.length));
+    track.setAttribute("aria-valuenow", String(currentStep + 1));
+    const bar = document.createElement("div");
+    bar.className = "h-full rounded-full bg-hcAmber transition-all duration-300";
+    bar.style.width = `${((currentStep + 1) / labels.length) * 100}%`;
+    track.append(bar);
+    const list = document.createElement("ol");
+    list.className = "mt-2 grid grid-cols-2 gap-1 text-xs sm:grid-cols-4";
+    labels.forEach((label, index) => {
+      const item = document.createElement("li");
+      item.textContent = label;
+      item.className = index <= currentStep ? "font-semibold text-white" : "text-white/50";
+      if (index === currentStep) item.setAttribute("aria-current", "step");
+      list.append(item);
+    });
+    progressNav.replaceChildren(heading, track, list);
+  }
+
+  new MutationObserver(renderProgress).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+
   function showStep(stepIndex) {
     const target = Math.max(0, Math.min(stepSections.length - 1, stepIndex));
     currentStep = target;
@@ -300,6 +390,8 @@ if (form) {
       submitSection.classList.toggle("hidden", !isLastStep);
       submitSection.style.display = isLastStep ? "" : "none";
     }
+
+    renderProgress();
   }
 
   function validateField(fieldName) {

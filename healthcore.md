@@ -13,10 +13,15 @@ A su vez, me intereso la gestión de cobros a los seguros y NHS, ya que de estos
 
 
 ## Mi idea de Agente de IA
-- Qué haría: Mi agente de IA gestionaría las agendas, brindando las opciones disponibles por especialidad, prestador, fecha y horarios de preferencia. En caso de que las citas estén ocupadas podrá seleccionar quedar en lista de espera para cuando se libere un cupo. El usuario también podrá cancelar los servicios al menos 8 horas antes de la consulta, en caso contrario deberá de abonar el 50% de los honorarios médicos.  
+- Qué haría: Mi agente de IA gestionaría las agendas, brindando las opciones disponibles por especialidad, prestador, fecha y horarios de preferencia. En caso de que las  punto.
+- En los otros estados, `satisfaccion` puede estar vacía y no contribuye a la media.citas estén ocupadas podrá seleccionar quedar en lista de espera para cuando se libere un cupo. El usuario también podrá cancelar los servicios al menos 8 horas antes de la consulta, en caso contrario deberá de abonar el 50% de los honorarios médicos.  
 - Qué información necesitaría:  Necesitaría: horarios de las consultas por prestador, especialidad y locación, duración estipulada de cada consulta en base a la especialidad. Información de turnos ya reservados, cancelaciones, y cambios de agenda. 
 - Qué produciría o dispararía: La reservación de un turno generaría un nuevo evento que puede ser en un sistema interno o en una planilla, donde se especifique: Fecha, nombre del usuario, documento de identidad el prestador médico, la locación y el horario de la reserva. 
 En los casos de las cancelaciones, deberá de generar una alerta para que dicho turno sea ofrecido a los pacientes en lista de espera, respetando la antigüedad de la solicitud.
+- Plazo de aceptación de la oferta: hasta 2 horas antes del comienzo del turno.
+- Si el paciente no responde o rechaza la oferta, el turno vuelve a quedar disponible para otra persona.
+- La lista de espera se filtra por locación y especialidad.
+- Si no hay pacientes en espera, el turno queda libre.
 Posteriormente el área de ciclo de ingresos y facturación evaluará si la consulta fue cancelada en tiempo y forma y procederá a generar una factura si corresponde el pago del 50%.
 
 ## Contrato del CSV de análisis
@@ -24,8 +29,7 @@ Posteriormente el área de ciclo de ingresos y facturación evaluará si la cons
 - Cabecera exacta: `Fecha,nombre del usuario,documento de identidad,locación,estado,satisfaccion`.
 - `Fecha`, `nombre del usuario`, `documento de identidad`, `locación` y `estado` son obligatorios en cada registro.
 - Estados permitidos: `cumplido`, `cancelado`, `cancelacion tardia`, `no concurrencia`.
-- En estado `cumplido`, `satisfaccion` es obligatoria. Toda puntuación registrada debe ser numérica, finita y estar entre 1 y 10 (inclusive); se admiten decimales con punto.
-- En los otros estados, `satisfaccion` puede estar vacía y no contribuye a la media.
+- En estado `cumplido`, `satisfaccion` es obligatoria. Toda puntuación registrada debe ser numérica, finita y estar entre 1 y 10 (inclusive); se admiten decimales con
 - No existe columna de categoría ni se calcula un desglose por categoría.
 - La fecha se requiere como texto no vacío; no se ha definido un formato, una restricción de locaciones ni una regla de duplicados.
 - CSV UTF-8 (con o sin BOM), separado por coma, punto y coma o tabulación. Se eliminan espacios exteriores de cabeceras y valores, sin cambiar los estados.

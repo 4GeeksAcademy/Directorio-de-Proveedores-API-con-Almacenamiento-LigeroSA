@@ -1,7 +1,7 @@
 import csv
 import io
 from collections import Counter
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field, replace
 from decimal import Decimal, InvalidOperation, ROUND_HALF_EVEN
 
 from packages.incidents.rules import RULES
@@ -16,6 +16,9 @@ STATES = RULES.states
 ERROR_LABELS = RULES.error_labels
 STATE_FIELD = RULES.fields["state"]
 SCORE_FIELD = RULES.fields["satisfaction"]
+DATE_FIELD = RULES.fields["date"]
+LOCATION_FIELD = RULES.fields["location"]
+IDENTITY_FIELD = RULES.fields["identity"]
 
 
 class CSVInputError(ValueError):
@@ -43,9 +46,11 @@ class AnalysisResult:
     satisfaction_count: int
     errors_by_type: dict[str, int]
     errors: list[RecordError]
+    unique_patients: int = 0
+    rows: tuple[dict, ...] = field(default=(), compare=False, repr=False)
 
     def to_dict(self) -> dict:
-        return asdict(self)
+        return asdict(replace(self, rows=()))
 
 
 def analyze_csv(content: bytes) -> AnalysisResult:
@@ -76,6 +81,8 @@ def analyze_csv(content: bytes) -> AnalysisResult:
     score_count = 0
     errors: list[RecordError] = []
     counts: Counter[str] = Counter()
+    identities: set[str] = set()
+    kept: list[dict] = []
     try:
         for values in reader:
             if not values:
@@ -112,15 +119,18 @@ def analyze_csv(content: bytes) -> AnalysisResult:
                 continue
             valid += 1
             states[state] += 1
-            if state == RULES.completed_state and score is not None:
+            identities.add(row[IDENTITY_FIELD])
+            kept_score = float(score) if state == RULES.completed_state and score is not None else None
+            if kept_score is not None:
                 score_total += score
                 score_count += 1
+            kept.append({"date": row[DATE_FIELD], "location": row[LOCATION_FIELD], "state": state, "score": kept_score})
     except csv.Error:
         raise CSVInputError("El CSV tiene una estructura incorrecta; revisa las comillas y columnas.") from None
     if total == 0:
         raise CSVInputError("El CSV contiene cabeceras, pero no registros.")
     mean = float((score_total / score_count).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)) if score_count else None
-    return AnalysisResult(total, valid, total - valid, states, mean, score_count, dict(counts), errors)
+    return AnalysisResult(total, valid, total - valid, states, mean, score_count, dict(counts), errors, len(identities), tuple(kept))
 
 
 def results_csv(result: AnalysisResult) -> str:

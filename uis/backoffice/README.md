@@ -1,6 +1,6 @@
 # Backoffice de HealthCore
 
-Interfaz local HTML/CSS/JavaScript, con iconos Lucide instalados localmente. Conserva la identidad HealthCore sin fuentes, analítica, imágenes ni scripts remotos. La vista **Análisis de Incidencias** es accesible desde el menú principal.
+Interfaz local HTML/CSS/JavaScript, con iconos Lucide instalados localmente. Conserva la identidad HealthCore con las fuentes de Google Fonts usadas en `index.html`, sin analítica, imágenes ni scripts remotos. La vista **Análisis de Incidencias** es accesible desde el menú principal.
 
 La API sirve esta interfaz en http://127.0.0.1:8765; no debe abrirse directamente como fichero HTML. Instrucciones de ejecución en [services/api/README.md](../../services/api/README.md).
 

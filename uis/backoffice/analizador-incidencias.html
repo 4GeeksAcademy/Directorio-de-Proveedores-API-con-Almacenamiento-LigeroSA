@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>HealthCore | Análisis de Incidencias</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/assets/styles.css">
     <script defer src="/assets/node_modules/lucide/dist/umd/lucide.js"></script>
     <script defer src="/assets/app.js"></script>
@@ -22,9 +25,17 @@
       </nav>
       <main id="incidents">
         <div class="page-heading">
-          <div><p class="eyebrow">COORDINACIÓN MÉDICA</p><h1>Análisis de Incidencias</h1></div>
+          <div><p class="eyebrow">COORDINACIÓN MÉDICA</p><h1>Dashboard de Satisfacción y Consultas</h1></div>
           <button id="export" type="button" disabled><i data-lucide="download" aria-hidden="true"></i>Descargar CSV</button>
         </div>
+        <section class="filter-bar" aria-label="Filtros globales">
+          <label>Desde<input id="date-from" type="date"></label>
+          <label>Hasta<input id="date-to" type="date"></label>
+          <label>Locación<select id="location-filter"><option value="">Todas</option><option>Texas</option><option>Florida</option><option>Georgia</option><option>Londres</option><option>Manchester</option></select></label>
+          <button id="clear-filters" type="button">Limpiar filtros</button>
+          <span id="dashboard-status" class="filter-status" role="status">Carga un CSV para ver el dashboard.</span>
+        </section>
+        <p id="invalid-alert" class="invalid-alert" role="status" hidden></p>
         <section class="upload-section" aria-labelledby="upload-heading">
           <h2 id="upload-heading">Archivo de incidencias</h2>
           <form id="upload-form">
@@ -43,8 +54,43 @@
             <div><dt>Total procesados</dt><dd id="total">0</dd></div>
             <div><dt>Válidos</dt><dd id="valid">0</dd></div>
             <div><dt>Inválidos</dt><dd id="invalid">0</dd></div>
-            <div><dt id="score-label">Satisfacción</dt><dd id="mean">N/D</dd><span id="score-count">0 casos con puntuación</span></div>
           </dl>
+        </section>
+        <section class="kpi-grid" aria-label="Indicadores principales">
+          <article class="kpi-card">
+            <p class="kpi-label">Estados de las consultas</p>
+            <div class="donut-wrap">
+              <svg id="state-donut" class="donut" viewBox="0 0 200 200" role="img" aria-label="Distribución por estado"></svg>
+              <ul id="state-legend" class="legend"></ul>
+            </div>
+          </article>
+          <article class="kpi-card">
+            <p id="score-label" class="kpi-label">Promedio de satisfacción</p>
+            <svg id="mean-gauge" class="gauge" viewBox="0 0 200 110" role="img" aria-label="Satisfacción promedio sobre 10"></svg>
+            <p id="mean" class="kpi-value">N/D</p>
+            <div class="kpi-row"><span id="mean-badge" class="level-badge" data-level="none">Sin datos</span><span id="score-count" class="kpi-note">0 casos con puntuación</span></div>
+          </article>
+          <article class="kpi-card">
+            <p class="kpi-label">Consultas cumplidas</p>
+            <svg id="completed-gauge" class="gauge" viewBox="0 0 200 110" role="img" aria-label="Porcentaje de consultas cumplidas"></svg>
+            <p id="kpi-completed" class="kpi-value">0</p>
+            <p id="kpi-completed-share" class="kpi-note">Sin consultas en el filtro</p>
+            <p class="kpi-note">Pacientes únicos: <strong id="kpi-patients">0</strong></p>
+          </article>
+        </section>
+        <section class="chart-grid" aria-label="Gráficos">
+          <article class="panel">
+            <h2>Desglose de estados por locación</h2>
+            <p class="panel-note">Porcentaje de consultas por estado en cada locación.</p>
+            <div id="location-chart" class="stack-chart"></div>
+            <ul id="location-legend" class="legend"></ul>
+          </article>
+          <article class="panel">
+            <h2>Satisfacción promedio diaria</h2>
+            <p class="panel-note">Promedio de casos cumplidos válidos por fecha, escala 1 a 10.</p>
+            <svg id="trend-chart" viewBox="0 0 640 240" role="img" aria-label="Satisfacción promedio diaria"></svg>
+            <p id="trend-empty" class="panel-note">Sin puntuaciones válidas por día en el filtro.</p>
+          </article>
         </section>
         <div class="breakdowns">
           <section aria-labelledby="states-heading">
@@ -57,6 +103,11 @@
             <p id="quality-status" class="quality-status">Sin análisis procesado.</p>
           </section>
         </div>
+        <section class="table-panel" aria-labelledby="rows-heading">
+          <div class="section-heading"><h2 id="rows-heading">Detalle de consultas</h2></div>
+          <div class="table-scroll"><table><thead><tr><th scope="col">Fecha</th><th scope="col">Locación</th><th scope="col">Estado</th><th scope="col" class="number">Satisfacción</th></tr></thead><tbody id="row-rows"></tbody></table></div>
+          <div class="pagination"><span id="row-page" class="pagination-info">Sin consultas en el filtro</span><button id="row-previous" type="button" title="Página anterior" aria-label="Página anterior"><i data-lucide="chevron-left" aria-hidden="true"></i></button><button id="row-next" type="button" title="Página siguiente" aria-label="Página siguiente"><i data-lucide="chevron-right" aria-hidden="true"></i></button></div>
+        </section>
         <section id="error-detail" hidden aria-labelledby="detail-heading" class="details">
           <div class="section-heading"><h2 id="detail-heading">Detalle de errores</h2><span id="error-page"></span></div>
           <div class="table-scroll"><table><thead><tr><th scope="col">Fila CSV</th><th scope="col">Campo</th><th scope="col">Problema</th></tr></thead><tbody id="error-rows"></tbody></table></div>

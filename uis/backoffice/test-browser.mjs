@@ -13,7 +13,8 @@ try {
     const external = [];
     page.on("pageerror", (error) => errors.push(error.message));
     page.on("request", (request) => {
-      if (!request.url().startsWith(baseURL) && !request.url().startsWith("blob:")) external.push(request.url());
+      const allowed = [baseURL, "blob:", "https://fonts.googleapis.com", "https://fonts.gstatic.com"];
+      if (!allowed.some((prefix) => request.url().startsWith(prefix))) external.push(request.url());
     });
     await page.goto(baseURL);
     await page.waitForSelector(".brand svg");

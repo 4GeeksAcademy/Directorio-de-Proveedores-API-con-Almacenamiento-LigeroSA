@@ -1,0 +1,115 @@
+@import "tailwindcss" source(none);
+@source "./dashboard.html";
+@source "./login.html";
+@source "./dashboard.js";
+@source "./login.js";
+
+.chart-card {
+  border: 1px solid rgb(11 31 58 / 0.1);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.chart-svg { width: 100%; max-width: 240px; height: auto; margin: 0 auto; }
+.chart-trend { max-width: none; }
+.chart-track { fill: none; stroke: #e5e7eb; stroke-width: 16; stroke-linecap: round; }
+.chart-fill { fill: none; stroke: #00a7a0; stroke-width: 16; stroke-linecap: round; transition: stroke-dashoffset 0.4s; }
+.chart-donut-track { fill: none; stroke: #e5e7eb; stroke-width: 28; }
+.chart-donut-segment { fill: none; stroke-width: 28; }
+.chart-value { font-size: 22px; font-weight: 700; fill: #0b1f3a; text-anchor: middle; }
+.chart-label { font-size: 12px; fill: #64748b; text-anchor: middle; }
+.chart-grid-line { stroke: #e2e8f0; stroke-width: 1; }
+.chart-line { fill: none; stroke: #6d5ce7; stroke-width: 2; }
+.chart-dot { fill: #6d5ce7; }
+.chart-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.25rem 0.9rem; font-size: 0.75rem; color: #64748b; }
+.chart-swatch { display: inline-block; width: 0.6rem; height: 0.6rem; border-radius: 9999px; margin-right: 0.35rem; }
+.chart-stack { display: flex; align-items: flex-end; justify-content: space-around; gap: 1rem; }
+.chart-col { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; flex: 1; min-width: 0; }
+.chart-stack-track { display: flex; flex-direction: column; width: 100%; max-width: 4rem; height: 14rem; border-radius: 0.25rem; overflow: hidden; background: #f1f5f9; }
+.chart-segment { display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.7rem; font-weight: 600; min-height: 0; }
+.chart-stack-label { font-size: 0.75rem; color: #64748b; text-align: center; }
+
+@theme {
+  --color-navy: #0b1f3a;
+  --color-sky: #d7ecff;
+  --color-teal: #00a7a0;
+  --color-amber: #f59e0b;
+  --color-mist: #f4f9ff;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-heading: "Stack Sans Text", sans-serif;
+  --font-brand: "Fraunces", serif;
+  --shadow-card: 0 15px 45px rgba(11, 31, 58, 0.15);
+  --shadow-ficha: 0 24px 60px rgba(11, 31, 58, 0.25);
+  --animate-ficha: ficha-desplegar 0.25s ease-out;
+}
+
+@keyframes ficha-desplegar {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@layer base {
+  html {
+    /* Scales rem-based sizes to match the 75% zoom look; media query breakpoints are unaffected. */
+    font-size: 75%;
+    scrollbar-gutter: stable;
+  }
+  body {
+    @apply bg-mist font-sans text-navy antialiased;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer components {
+  .topbar {
+    background: linear-gradient(135deg, #07152b, #0b1f3a 60%, #0e4251);
+    @apply text-white;
+  }
+  .hero-title-shadow {
+    text-shadow: 0 3px 18px rgba(0, 0, 0, 0.55), 0 1px 2px rgba(0, 0, 0, 0.6);
+  }
+  .card {
+    @apply rounded-2xl bg-white p-5 shadow-card sm:p-6;
+  }
+  .eyebrow {
+    @apply inline-block rounded-full bg-sky px-3 py-1 text-xs font-semibold tracking-wider uppercase;
+  }
+  .control {
+    @apply min-h-10 w-full rounded-xl border border-navy/20 bg-mist px-3 py-2 text-sm font-normal transition-all duration-200 focus:border-teal focus:outline-none focus:ring-3 focus:ring-teal/30;
+  }
+  .btn-primary {
+    @apply w-full cursor-pointer rounded-full bg-amber px-6 py-3 font-semibold text-navy transition-all duration-200 hover:brightness-95 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-teal/40;
+  }
+  .btn-pill {
+    @apply inline-flex cursor-pointer items-center rounded-full border border-white/40 bg-white/10 px-4 py-2 text-xs font-semibold text-white no-underline transition-all duration-200 hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white;
+  }
+  .chip {
+    @apply inline-flex min-h-8 items-center justify-center cursor-pointer rounded-full border border-navy/20 bg-mist px-3 py-1 text-xs font-normal text-navy transition-all duration-200 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal aria-pressed:border-navy aria-pressed:bg-navy aria-pressed:text-white disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .row-btn {
+    @apply inline-flex h-9 w-36 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-full border border-navy/20 bg-mist px-3 text-xs font-semibold text-navy transition-all duration-200 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal;
+  }
+  .chip-action {
+    @apply cursor-pointer rounded-full border border-navy/20 bg-mist px-2.5 py-0.5 text-xs font-semibold text-navy no-underline transition-all duration-200 hover:border-navy focus-visible:border-navy focus-visible:outline-none;
+  }
+  .th {
+    @apply border-b border-navy/10 bg-mist px-3 py-3 text-left font-semibold text-navy;
+  }
+  .td {
+    @apply border-b border-navy/10 px-3 py-3 align-middle break-words;
+  }
+  .ficha-action {
+    @apply inline-flex h-7 cursor-pointer items-center justify-center rounded-full border border-navy/20 bg-mist px-3 text-xs font-semibold leading-none text-navy no-underline transition-all duration-200 hover:border-navy hover:bg-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal;
+  }
+  .ficha-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(11, 31, 58, 0.25) transparent;
+  }
+  .sidebar-link {
+    @apply block rounded-xl px-5 py-4 text-base font-semibold whitespace-nowrap text-navy no-underline transition-all duration-200 hover:bg-sky focus-visible:bg-sky focus-visible:ring-2 focus-visible:ring-teal focus-visible:outline-none aria-[current=page]:bg-navy aria-[current=page]:text-white;
+  }
+}

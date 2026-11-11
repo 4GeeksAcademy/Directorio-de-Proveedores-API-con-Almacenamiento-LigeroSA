@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>HealthCore | Ingreso de staff</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Stack+Sans+Text:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/staff/assets/staff.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="flex w-full px-5 py-4 sm:px-10">
+        <a href="/" class="hero-title-shadow font-brand text-[27.6px] font-bold">HealthCore</a>
+      </div>
+    </header>
+
+    <main class="mx-auto my-12 max-w-md px-5 sm:my-16">
+      <div class="card">
+        <h1 class="text-3xl font-bold">Ingreso de staff</h1>
+        <p class="text-slate-500">Ingresa con tu correo y contraseña.</p>
+
+        <form id="loginForm" novalidate class="mt-8">
+          <div class="mb-5 flex flex-col gap-2">
+            <label for="email" class="text-sm font-semibold">Email</label>
+            <input id="email" name="email" type="email" autocomplete="username" required placeholder="nombre@healthcore.com" class="control" />
+          </div>
+          <div class="mb-5 flex flex-col gap-2">
+            <label for="password" class="text-sm font-semibold">Contraseña</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="••••••••" class="control" />
+          </div>
+          <p id="error" class="mb-4 text-sm font-semibold text-red-600 hidden" role="alert"></p>
+          <button type="submit" class="btn-primary">Ingresar</button>
+        </form>
+      </div>
+    </main>
+
+    <script src="/staff/assets/login.js"></script>
+  </body>
+</html>

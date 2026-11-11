@@ -6,6 +6,7 @@
   "description": "TypeScript business logic utilities for HealthCore",
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "build:staff-css": "node scripts/build-staff-css.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
